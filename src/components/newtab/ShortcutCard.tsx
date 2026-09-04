@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Globe, Pencil, Trash2 } from "lucide-react";
+import { useI18n } from "@/hooks/useSettings";
 import { faviconFor, sanitizeUrl } from "@/services/searchService";
 import type { Shortcut } from "@/types";
 
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export function ShortcutCard({ shortcut, onEdit, onRemove, onDragStart, onDragEnter, onDrop, dragging }: Props) {
+  const { t } = useI18n();
   const [failed, setFailed] = useState(false);
   const href = sanitizeUrl(shortcut.url);
   const icon = sanitizeUrl(shortcut.icon ?? "") || faviconFor(shortcut.url);
@@ -55,7 +57,7 @@ export function ShortcutCard({ shortcut, onEdit, onRemove, onDragStart, onDragEn
         <button
           type="button"
           onClick={onEdit}
-          aria-label={`Editar atalho ${shortcut.name}`}
+          aria-label={t("shortcuts.editOf", { name: shortcut.name })}
           className="grid size-6 place-items-center rounded-full border border-glass-border bg-popover text-muted-foreground hover:text-foreground"
         >
           <Pencil className="size-3" aria-hidden />
@@ -63,7 +65,7 @@ export function ShortcutCard({ shortcut, onEdit, onRemove, onDragStart, onDragEn
         <button
           type="button"
           onClick={onRemove}
-          aria-label={`Excluir atalho ${shortcut.name}`}
+          aria-label={t("shortcuts.removeOf", { name: shortcut.name })}
           className="grid size-6 place-items-center rounded-full border border-glass-border bg-popover text-muted-foreground hover:text-destructive"
         >
           <Trash2 className="size-3" aria-hidden />
