@@ -63,7 +63,7 @@ const MONTHS = [
 ];
 
 export function formatLongDate(d: Date) {
-  return `${WEEKDAYS[d.getDay()]}, ${String(d.getDate()).padStart(2, "0")} de ${MONTHS[d.getMonth()]}`;
+  return `${WEEKDAYS[d.getDay()] ?? ""}, ${String(d.getDate()).padStart(2, "0")} de ${MONTHS[d.getMonth()] ?? ""}`;
 }
 
 export function formatTime(d: Date, use24h: boolean, showSeconds: boolean) {

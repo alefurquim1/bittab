@@ -24,7 +24,7 @@ export const DEFAULT_SETTINGS: Settings = {
   showSeconds: false,
   showDate: true,
   theme: "dark",
-  accent: ACCENTS[0].value,
+  accent: "oklch(0.78 0.13 205)",
   cardOpacity: 55,
   searchEngine: "google",
   widgets: { weather: true, notes: true, tools: true, shortcuts: true },
