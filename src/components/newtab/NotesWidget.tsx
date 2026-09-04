@@ -20,7 +20,6 @@ export default function NotesWidget() {
           <Eraser className="size-3.5" aria-hidden />
         </Button>
       </div>
-      <Label />
       <Textarea
         id="quick-notes"
         aria-label="Notas rápidas"
@@ -32,8 +31,4 @@ export default function NotesWidget() {
       <p className="mt-2 text-[0.66rem] text-muted-foreground">Salvo automaticamente neste navegador.</p>
     </article>
   );
-}
-
-function Label() {
-  return null;
 }
