@@ -119,6 +119,7 @@ export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
                   <SelectItem value="dark">Escuro</SelectItem>
                   <SelectItem value="light">Claro</SelectItem>
                   <SelectItem value="system">Sistema</SelectItem>
+                  <SelectItem value="hacker">Hacker / Cyberpunk</SelectItem>
                 </SelectContent>
               </Select>
             </div>

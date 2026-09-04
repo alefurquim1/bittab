@@ -2,6 +2,9 @@ import { createContext, useCallback, useContext, useEffect, useMemo, type ReactN
 import { useLocalStorage } from "./useLocalStorage";
 import type { PomodoroState, QuickTool, Settings, Shortcut, Task } from "@/types";
 
+/** Verde neon fixo do tema hacker/cyberpunk. */
+export const HACKER_ACCENT = "oklch(0.86 0.24 145)";
+
 export const ACCENTS = [
   { id: "cyan", label: "Ciano", value: "oklch(0.78 0.13 205)" },
   { id: "blue", label: "Azul", value: "oklch(0.68 0.16 255)" },
@@ -120,10 +123,13 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const root = document.documentElement;
     const apply = () => {
+      const hacker = s.value.theme === "hacker";
       const dark =
+        hacker ||
         s.value.theme === "dark" ||
         (s.value.theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
       root.classList.toggle("dark", dark);
+      root.classList.toggle("theme-hacker", hacker);
     };
     apply();
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
@@ -133,9 +139,10 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const root = document.documentElement;
-    root.style.setProperty("--accent-color", s.value.accent);
+    const hacker = s.value.theme === "hacker";
+    root.style.setProperty("--accent-color", hacker ? HACKER_ACCENT : s.value.accent);
     root.style.setProperty("--card-alpha", String(s.value.cardOpacity / 100));
-  }, [s.value.accent, s.value.cardOpacity]);
+  }, [s.value.accent, s.value.cardOpacity, s.value.theme]);
 
   const value = useMemo<Store>(
     () => ({
