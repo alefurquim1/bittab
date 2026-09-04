@@ -1,24 +1,9 @@
 import { useState } from "react";
-import { Download, ExternalLink } from "lucide-react";
+import { Download } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
 const ZIP_PATH = "/bittab-extensao.zip";
-
-const STORE_PACKAGES = [
-  {
-    file: "bittab-chrome-webstore.zip",
-    label: "Pacote Chrome Web Store",
-    portal: "https://chromewebstore.google.com/category/extensions",
-    portalLabel: "Chrome Web Store",
-  },
-  {
-    file: "bittab-firefox-addons.zip",
-    label: "Pacote Firefox Add-ons",
-    portal: "https://addons.mozilla.org/en-US/firefox/extensions/",
-    portalLabel: "Firefox Add-ons",
-  },
-];
 
 /**
  * Download + install instructions for the browser extension that turns
@@ -27,15 +12,15 @@ const STORE_PACKAGES = [
 export function ExtensionCard() {
   const [busy, setBusy] = useState(false);
 
-  const download = async (file = "bittab-extensao.zip") => {
+  const download = async () => {
     setBusy(true);
     try {
-      const res = await fetch(`/${file}`);
+      const res = await fetch(ZIP_PATH);
       if (!res.ok) throw new Error(`Falha ao baixar (${res.status})`);
       const blob = await res.blob();
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = file;
+      a.download = "bittab-extensao.zip";
       a.click();
       URL.revokeObjectURL(a.href);
       toast.success("Download iniciado");
@@ -55,7 +40,7 @@ export function ExtensionCard() {
         </p>
       </div>
 
-      <Button type="button" onClick={() => void download()} disabled={busy} className="w-full">
+      <Button type="button" onClick={download} disabled={busy} className="w-full">
         <Download className="size-4" aria-hidden />
         {busy ? "Preparando…" : "Baixar extensão"}
       </Button>
@@ -75,30 +60,6 @@ export function ExtensionCard() {
         </li>
         <li>Abra uma nova guia. Para trocar o endereço exibido, use as opções da extensão.</li>
       </ol>
-
-      <div className="space-y-2 border-t border-glass-border pt-3">
-        <p className="text-sm font-medium">Enviar para as lojas oficiais</p>
-        <p className="text-xs text-muted-foreground">
-          Baixe o pacote da loja, crie sua conta de desenvolvedor e envie o arquivo no portal.
-        </p>
-        {STORE_PACKAGES.map((p) => (
-          <div key={p.file} className="flex flex-wrap items-center gap-2">
-            <Button type="button" variant="secondary" size="sm" disabled={busy} onClick={() => void download(p.file)}>
-              <Download className="size-3.5" aria-hidden />
-              {p.label}
-            </Button>
-            <a
-              href={p.portal}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-            >
-              {p.portalLabel}
-              <ExternalLink className="size-3" aria-hidden />
-            </a>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }
