@@ -14,7 +14,7 @@ import {
   Umbrella,
   Wind,
 } from "lucide-react";
-import { useStore } from "@/hooks/useSettings";
+import { useI18n, useStore } from "@/hooks/useSettings";
 import { getWeather } from "@/services/weatherService";
 import type { Weather, WeatherAlertLevel } from "@/types";
 
@@ -38,18 +38,19 @@ const REFRESH_MS = 10 * 60 * 1000;
 
 export default function WeatherWidget() {
   const { settings } = useStore();
+  const { t, lang } = useI18n();
   const city = settings.weatherCity;
   const [data, setData] = useState<Weather | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [tick, setTick] = useState(0);
 
-  const reload = useCallback(() => setTick((t) => t + 1), []);
+  const reload = useCallback(() => setTick((n) => n + 1), []);
 
   useEffect(() => {
     let active = true;
     setLoading(true);
-    getWeather(city)
+    getWeather(city, lang)
       .then((w) => {
         if (!active) return;
         setData(w);
@@ -57,7 +58,7 @@ export default function WeatherWidget() {
       })
       .catch((e: unknown) => {
         if (!active) return;
-        setError(e instanceof Error ? e.message : "Falha ao carregar o clima.");
+        setError(e instanceof Error ? e.message : t("weather.error"));
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -65,7 +66,7 @@ export default function WeatherWidget() {
     return () => {
       active = false;
     };
-  }, [city, tick]);
+  }, [city, tick, lang, t]);
 
   useEffect(() => {
     const id = window.setInterval(reload, REFRESH_MS);
@@ -77,11 +78,13 @@ export default function WeatherWidget() {
   return (
     <article className="glass rise-in rounded-2xl p-4">
       <div className="flex items-center justify-between gap-2">
-        <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">Clima</h3>
+        <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+          {t("weather.title")}
+        </h3>
         <button
           type="button"
           onClick={reload}
-          aria-label="Atualizar clima"
+          aria-label={t("weather.refresh")}
           className="text-muted-foreground transition hover:text-foreground"
         >
           <RefreshCw className={`size-3.5 ${loading ? "animate-spin" : ""}`} aria-hidden />
@@ -102,29 +105,29 @@ export default function WeatherWidget() {
           </div>
 
           <p className="mt-2 truncate text-xs text-muted-foreground">
-            {data.condition} • sensação {data.feelsLike}°C • {data.min}° / {data.max}°
+            {data.condition} • {t("weather.feels")} {data.feelsLike}°C • {data.min}° / {data.max}°
           </p>
 
           <dl className="mt-2 grid grid-cols-3 gap-2 text-[0.66rem] text-muted-foreground">
             <div className="flex items-center gap-1">
               <Droplets className="size-3.5 shrink-0" aria-hidden />
-              <dt className="sr-only">Umidade</dt>
+              <dt className="sr-only">{t("weather.humidity")}</dt>
               <dd>{data.humidity}%</dd>
             </div>
             <div className="flex items-center gap-1">
               <Wind className="size-3.5 shrink-0" aria-hidden />
-              <dt className="sr-only">Vento</dt>
+              <dt className="sr-only">{t("weather.wind")}</dt>
               <dd>{data.wind} km/h</dd>
             </div>
             <div className="flex items-center gap-1">
               <Umbrella className="size-3.5 shrink-0" aria-hidden />
-              <dt className="sr-only">Chance de chuva</dt>
+              <dt className="sr-only">{t("weather.rainChance")}</dt>
               <dd>{data.precipitationChance}%</dd>
             </div>
           </dl>
 
           {data.alerts.length > 0 ? (
-            <ul className="mt-3 space-y-1.5" aria-label="Alertas do clima">
+            <ul className="mt-3 space-y-1.5" aria-label={t("weather.alerts")}>
               {data.alerts.slice(0, 3).map((a) => (
                 <li
                   key={a.id}
@@ -142,7 +145,7 @@ export default function WeatherWidget() {
               ))}
             </ul>
           ) : (
-            <p className="mt-3 text-[0.66rem] text-muted-foreground">Sem alertas para agora.</p>
+            <p className="mt-3 text-[0.66rem] text-muted-foreground">{t("weather.noAlerts")}</p>
           )}
 
           {error && <p className="mt-2 text-[0.66rem] text-muted-foreground">{error}</p>}
@@ -150,7 +153,7 @@ export default function WeatherWidget() {
       ) : error ? (
         <p className="mt-3 text-sm text-muted-foreground">{error}</p>
       ) : (
-        <p className="mt-3 text-sm text-muted-foreground">Carregando…</p>
+        <p className="mt-3 text-sm text-muted-foreground">{t("weather.loading")}</p>
       )}
     </article>
   );
