@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ExtensionCard } from "@/components/newtab/ExtensionCard";
 import { ACCENTS, useStore, WALLPAPERS } from "@/hooks/useSettings";
 import { SEARCH_ENGINES } from "@/services/searchService";
 import { clearBackgroundImage, saveBackgroundImage } from "@/services/imageStore";
