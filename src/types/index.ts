@@ -1,5 +1,7 @@
 export type SearchEngineId = "google" | "bing" | "duckduckgo" | "brave" | "ecosia";
 
+export type Language = "pt-BR" | "en" | "es";
+
 export interface Shortcut {
   id: string;
   name: string;
@@ -39,6 +41,7 @@ export interface WidgetToggles {
 }
 
 export interface Settings {
+  language: Language;
   userName: string;
   clock24h: boolean;
   showSeconds: boolean;
