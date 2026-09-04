@@ -100,15 +100,9 @@ export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
                 onChange={(e) => update({ weatherCity: e.target.value })}
               />
             </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="set-key">Chave da API de clima (OpenWeather)</Label>
-              <Input
-                id="set-key"
-                value={settings.weatherApiKey}
-                onChange={(e) => update({ weatherApiKey: e.target.value })}
-                placeholder="Opcional — sem chave, usamos dados demonstrativos"
-              />
-            </div>
+            <p className="text-xs text-muted-foreground">
+              O clima é obtido em tempo real, sem necessidade de cadastro ou chave.
+            </p>
           </TabsContent>
 
           {/* APARÊNCIA */}
