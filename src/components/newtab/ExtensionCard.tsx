@@ -75,6 +75,30 @@ export function ExtensionCard() {
         </li>
         <li>Abra uma nova guia. Para trocar o endereço exibido, use as opções da extensão.</li>
       </ol>
+
+      <div className="space-y-2 border-t border-glass-border pt-3">
+        <p className="text-sm font-medium">Enviar para as lojas oficiais</p>
+        <p className="text-xs text-muted-foreground">
+          Baixe o pacote da loja, crie sua conta de desenvolvedor e envie o arquivo no portal.
+        </p>
+        {STORE_PACKAGES.map((p) => (
+          <div key={p.file} className="flex flex-wrap items-center gap-2">
+            <Button type="button" variant="secondary" size="sm" disabled={busy} onClick={() => void download(p.file)}>
+              <Download className="size-3.5" aria-hidden />
+              {p.label}
+            </Button>
+            <a
+              href={p.portal}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+            >
+              {p.portalLabel}
+              <ExternalLink className="size-3" aria-hidden />
+            </a>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
