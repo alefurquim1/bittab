@@ -133,7 +133,12 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo<Store>(
     () => ({
-      settings: s.value,
+      settings: {
+        ...DEFAULT_SETTINGS,
+        ...s.value,
+        widgets: { ...DEFAULT_SETTINGS.widgets, ...s.value.widgets },
+        background: { ...DEFAULT_SETTINGS.background, ...s.value.background },
+      },
       update,
       updateBackground,
       shortcuts: sc.value,
