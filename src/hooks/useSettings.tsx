@@ -2,6 +2,9 @@ import { createContext, useCallback, useContext, useEffect, useMemo, type ReactN
 import { useLocalStorage } from "./useLocalStorage";
 import type { PomodoroState, QuickTool, Settings, Shortcut, Task } from "@/types";
 
+/** Verde neon fixo do tema hacker/cyberpunk. */
+export const HACKER_ACCENT = "oklch(0.86 0.24 145)";
+
 export const ACCENTS = [
   { id: "cyan", label: "Ciano", value: "oklch(0.78 0.13 205)" },
   { id: "blue", label: "Azul", value: "oklch(0.68 0.16 255)" },
