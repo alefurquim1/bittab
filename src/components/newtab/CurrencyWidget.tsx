@@ -47,6 +47,14 @@ function loadStored(): Stored {
 
 export default function CurrencyWidget() {
   const { t, locale } = useI18n();
+  const currencyName = (code: string) => {
+    try {
+      const dn = new Intl.DisplayNames([locale], { type: "currency" });
+      return `${dn.of(code) ?? code} (${code})`;
+    } catch {
+      return code;
+    }
+  };
   const [from, setFrom] = useState("USD");
   const [to, setTo] = useState("BRL");
   const [amount, setAmount] = useState("1");
@@ -137,7 +145,7 @@ export default function CurrencyWidget() {
           >
             {CURRENCIES.map((c) => (
               <option key={c.code} value={c.code}>
-                {c.label}
+                {currencyName(c.code)}
               </option>
             ))}
           </select>
@@ -163,7 +171,7 @@ export default function CurrencyWidget() {
           >
             {CURRENCIES.map((c) => (
               <option key={c.code} value={c.code}>
-                {c.label}
+                {currencyName(c.code)}
               </option>
             ))}
           </select>
