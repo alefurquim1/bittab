@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { ArrowLeftRight, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useI18n } from "@/hooks/useSettings";
 
 const CURRENCIES: Array<{ code: string; label: string }> = [
   { code: "BRL", label: "Real (BRL)" },
@@ -45,6 +46,7 @@ function loadStored(): Stored {
 }
 
 export default function CurrencyWidget() {
+  const { t, locale } = useI18n();
   const [from, setFrom] = useState("USD");
   const [to, setTo] = useState("BRL");
   const [amount, setAmount] = useState("1");
@@ -92,11 +94,11 @@ export default function CurrencyWidget() {
       setDate(entry?.create_date?.slice(0, 10) ?? new Date().toISOString().slice(0, 10));
     } catch {
       setRate(null);
-      setError("Não foi possível obter a cotação deste par agora.");
+      setError(t("currency.error"));
     } finally {
       setLoading(false);
     }
-  }, [from, to]);
+  }, [from, to, t]);
 
   useEffect(() => {
     if (!ready) return;
@@ -108,17 +110,17 @@ export default function CurrencyWidget() {
   const numericAmount = Number(amount.replace(",", ".")) || 0;
   const converted = rate !== null ? numericAmount * rate : null;
   const fmt = (v: number) =>
-    v.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: v < 1 ? 6 : 2 });
+    v.toLocaleString(locale, { minimumFractionDigits: 2, maximumFractionDigits: v < 1 ? 6 : 2 });
 
   return (
     <article className="glass rise-in rounded-2xl p-4">
       <div className="flex items-center justify-between gap-2">
-        <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">Cotação de moedas</h3>
+        <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">{t("currency.title")}</h3>
         <Button
           variant="ghost"
           size="icon"
           className="size-7"
-          aria-label="Atualizar cotação"
+          aria-label={t("currency.refresh")}
           onClick={() => void fetchRate()}
         >
           <RefreshCw className={`size-3.5 ${loading ? "animate-spin" : ""}`} aria-hidden />
@@ -127,7 +129,7 @@ export default function CurrencyWidget() {
 
       <div className="mt-3 flex items-end gap-2">
         <label className="flex-1 text-[0.66rem] text-muted-foreground">
-          De
+          {t("currency.from")}
           <select
             value={from}
             onChange={(e) => setFrom(e.target.value)}
@@ -144,7 +146,7 @@ export default function CurrencyWidget() {
           variant="ghost"
           size="icon"
           className="mb-1 size-7"
-          aria-label="Inverter moedas"
+          aria-label={t("currency.swap")}
           onClick={() => {
             setFrom(to);
             setTo(from);
@@ -153,7 +155,7 @@ export default function CurrencyWidget() {
           <ArrowLeftRight className="size-3.5" aria-hidden />
         </Button>
         <label className="flex-1 text-[0.66rem] text-muted-foreground">
-          Para
+          {t("currency.to")}
           <select
             value={to}
             onChange={(e) => setTo(e.target.value)}
@@ -169,7 +171,7 @@ export default function CurrencyWidget() {
       </div>
 
       <label className="mt-3 block text-[0.66rem] text-muted-foreground">
-        Valor
+        {t("currency.amount")}
         <Input
           inputMode="decimal"
           value={amount}
@@ -186,7 +188,7 @@ export default function CurrencyWidget() {
             {converted !== null ? `${fmt(converted)} ${to}` : "—"}
           </p>
           <p className="mt-1 text-[0.66rem] text-muted-foreground">
-            {rate !== null ? `1 ${from} = ${fmt(rate)} ${to}` : "Carregando cotação…"}
+            {rate !== null ? `1 ${from} = ${fmt(rate)} ${to}` : t("currency.loading")}
             {date && ` • ${date.split("-").reverse().join("/")}`}
           </p>
         </div>
