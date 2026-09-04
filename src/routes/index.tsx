@@ -18,13 +18,13 @@ const PomodoroWidget = lazy(() => import("@/components/newtab/PomodoroWidget"));
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "bit01tec • Nova Guia — Relógio, Busca e Atalhos" },
+      { title: "BitTab • Nova Guia — Relógio, Busca e Atalhos" },
       {
         name: "description",
         content:
           "Nova guia personalizada com relógio, busca multi-mecanismo, atalhos, clima e notas rápidas. Tudo salvo apenas no seu navegador.",
       },
-      { property: "og:title", content: "bit01tec • Sua nova guia, do seu jeito" },
+      { property: "og:title", content: "BitTab • Sua nova guia. Do seu jeito." },
       {
         property: "og:description",
         content:
@@ -127,7 +127,7 @@ function NewTab() {
       </main>
 
       <footer className="px-4 py-5 text-center text-[0.66rem] text-muted-foreground sm:px-8">
-        bit01tec • Sua nova guia, do seu jeito.
+        BitTab • Sua nova guia. Do seu jeito.
         <span className="mx-1.5 opacity-40">|</span>
         Tecnologia, Segurança &amp; Produtividade
       </footer>

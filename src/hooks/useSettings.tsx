@@ -51,7 +51,7 @@ export const DEFAULT_SHORTCUTS: Shortcut[] = [
   { id: "s5", name: "LinkedIn", url: "https://www.linkedin.com" },
   { id: "s6", name: "WhatsApp Web", url: "https://web.whatsapp.com" },
   { id: "s7", name: "Instagram", url: "https://www.instagram.com" },
-  { id: "s8", name: "Bit01 Tecnologia", url: "https://bit01tec.wordpress.com" },
+  { id: "s8", name: "BitTab", url: "https://bit01tec.wordpress.com" },
 ];
 
 export const DEFAULT_TOOLS: QuickTool[] = [
