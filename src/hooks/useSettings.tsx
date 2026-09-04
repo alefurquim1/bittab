@@ -136,9 +136,10 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const root = document.documentElement;
-    root.style.setProperty("--accent-color", s.value.accent);
+    const hacker = s.value.theme === "hacker";
+    root.style.setProperty("--accent-color", hacker ? HACKER_ACCENT : s.value.accent);
     root.style.setProperty("--card-alpha", String(s.value.cardOpacity / 100));
-  }, [s.value.accent, s.value.cardOpacity]);
+  }, [s.value.accent, s.value.cardOpacity, s.value.theme]);
 
   const value = useMemo<Store>(
     () => ({
