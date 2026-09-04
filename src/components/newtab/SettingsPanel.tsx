@@ -17,10 +17,11 @@ import {
 } from "@/components/ui/select";
 import { ExtensionCard } from "@/components/newtab/ExtensionCard";
 import { HomepageCard } from "@/components/newtab/HomepageCard";
-import { ACCENTS, useStore, WALLPAPERS } from "@/hooks/useSettings";
+import { ACCENTS, useI18n, useStore, WALLPAPERS } from "@/hooks/useSettings";
+import { LANGUAGES } from "@/i18n";
 import { SEARCH_ENGINES } from "@/services/searchService";
 import { clearBackgroundImage, saveBackgroundImage } from "@/services/imageStore";
-import type { BackgroundKind, SearchEngineId, ThemeMode, WidgetToggles } from "@/types";
+import type { BackgroundKind, Language, SearchEngineId, ThemeMode, WidgetToggles } from "@/types";
 
 interface Props {
   open: boolean;
@@ -29,31 +30,32 @@ interface Props {
   onTabChange: (tab: string) => void;
 }
 
-const WIDGET_LABELS: Array<{ key: keyof WidgetToggles; label: string }> = [
-  { key: "weather", label: "Clima" },
-  { key: "notes", label: "Notas rápidas" },
-  { key: "links", label: "Plataformas por categoria" },
-  { key: "shortcuts", label: "Atalhos" },
-  { key: "tasks", label: "Tarefas" },
-  { key: "pomodoro", label: "Pomodoro" },
-  { key: "currency", label: "Cotação de moedas" },
+const WIDGET_KEYS: Array<keyof WidgetToggles> = [
+  "weather",
+  "notes",
+  "links",
+  "shortcuts",
+  "tasks",
+  "pomodoro",
+  "currency",
 ];
 
 export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
   const { settings, update, updateBackground } = useStore();
+  const { t } = useI18n();
   const bg = settings.background;
   const fileRef = useRef<HTMLInputElement>(null);
 
   async function onUpload(file: File) {
     if (file.size > 6_000_000) {
-      toast.error("Imagem muito grande (máx. 6 MB).");
+      toast.error(t("settings.imageTooBig"));
       return;
     }
     const reader = new FileReader();
     reader.onload = async () => {
       await saveBackgroundImage(String(reader.result));
       updateBackground({ kind: "image", hasUpload: true });
-      toast.success("Plano de fundo atualizado.");
+      toast.success(t("settings.bgUpdated"));
     };
     reader.readAsDataURL(file);
   }
@@ -62,16 +64,16 @@ export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-full overflow-y-auto sm:max-w-md">
         <SheetHeader>
-          <SheetTitle>Personalizar</SheetTitle>
-          <SheetDescription>Ajuste sua nova guia. Tudo fica salvo neste navegador.</SheetDescription>
+          <SheetTitle>{t("settings.title")}</SheetTitle>
+          <SheetDescription>{t("settings.desc")}</SheetDescription>
         </SheetHeader>
 
         <Tabs value={tab} onValueChange={onTabChange} className="px-4 pb-8">
           <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="geral">Geral</TabsTrigger>
-            <TabsTrigger value="aparencia">Visual</TabsTrigger>
-            <TabsTrigger value="pesquisa">Busca</TabsTrigger>
-            <TabsTrigger value="widgets">Widgets</TabsTrigger>
+            <TabsTrigger value="geral">{t("settings.tab.general")}</TabsTrigger>
+            <TabsTrigger value="aparencia">{t("settings.tab.visual")}</TabsTrigger>
+            <TabsTrigger value="pesquisa">{t("settings.tab.search")}</TabsTrigger>
+            <TabsTrigger value="widgets">{t("settings.tab.widgets")}</TabsTrigger>
             <TabsTrigger value="privacidade">
               <ShieldCheck className="size-3.5" aria-hidden />
             </TabsTrigger>
@@ -80,34 +82,52 @@ export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
           {/* GERAL */}
           <TabsContent value="geral" className="mt-5 space-y-5">
             <div className="space-y-1.5">
-              <Label htmlFor="set-name">Nome do usuário</Label>
+              <Label htmlFor="set-lang">{t("settings.language")}</Label>
+              <Select
+                value={settings.language}
+                onValueChange={(v) => update({ language: v as Language })}
+              >
+                <SelectTrigger id="set-lang">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {LANGUAGES.map((l) => (
+                    <SelectItem key={l.id} value={l.id}>
+                      {l.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">{t("settings.languageHint")}</p>
+            </div>
+
+            <div className="space-y-1.5">
+              <Label htmlFor="set-name">{t("settings.userName")}</Label>
               <Input
                 id="set-name"
                 value={settings.userName}
                 onChange={(e) => update({ userName: e.target.value })}
-                placeholder="Seu nome"
+                placeholder={t("settings.userNamePlaceholder")}
               />
             </div>
-            <Row label="Formato 24 horas" id="set-24h">
+            <Row label={t("settings.clock24h")} id="set-24h">
               <Switch id="set-24h" checked={settings.clock24h} onCheckedChange={(v) => update({ clock24h: v })} />
             </Row>
-            <Row label="Mostrar segundos" id="set-sec">
+            <Row label={t("settings.seconds")} id="set-sec">
               <Switch id="set-sec" checked={settings.showSeconds} onCheckedChange={(v) => update({ showSeconds: v })} />
             </Row>
-            <Row label="Mostrar data" id="set-date">
+            <Row label={t("settings.date")} id="set-date">
               <Switch id="set-date" checked={settings.showDate} onCheckedChange={(v) => update({ showDate: v })} />
             </Row>
             <div className="space-y-1.5">
-              <Label htmlFor="set-city">Cidade do clima</Label>
+              <Label htmlFor="set-city">{t("settings.city")}</Label>
               <Input
                 id="set-city"
                 value={settings.weatherCity}
                 onChange={(e) => update({ weatherCity: e.target.value })}
               />
             </div>
-            <p className="text-xs text-muted-foreground">
-              O clima é obtido em tempo real, sem necessidade de cadastro ou chave.
-            </p>
+            <p className="text-xs text-muted-foreground">{t("settings.weatherNote")}</p>
             <ExtensionCard />
             <HomepageCard />
           </TabsContent>
@@ -115,28 +135,28 @@ export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
           {/* APARÊNCIA */}
           <TabsContent value="aparencia" className="mt-5 space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="set-theme">Tema</Label>
+              <Label htmlFor="set-theme">{t("settings.theme")}</Label>
               <Select value={settings.theme} onValueChange={(v) => update({ theme: v as ThemeMode })}>
                 <SelectTrigger id="set-theme">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="dark">Escuro</SelectItem>
-                  <SelectItem value="light">Claro</SelectItem>
-                  <SelectItem value="system">Sistema</SelectItem>
-                  <SelectItem value="hacker">Hacker / Cyberpunk</SelectItem>
+                  <SelectItem value="dark">{t("settings.theme.dark")}</SelectItem>
+                  <SelectItem value="light">{t("settings.theme.light")}</SelectItem>
+                  <SelectItem value="system">{t("settings.theme.system")}</SelectItem>
+                  <SelectItem value="hacker">{t("settings.theme.hacker")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-2">
-              <Label>Cor de destaque</Label>
+              <Label>{t("settings.accent")}</Label>
               <div className="flex flex-wrap gap-2">
                 {ACCENTS.map((a) => (
                   <button
                     key={a.id}
                     type="button"
-                    aria-label={`Cor de destaque ${a.label}`}
+                    aria-label={t("settings.accentAria", { name: a.label })}
                     onClick={() => update({ accent: a.value })}
                     className="grid size-8 place-items-center rounded-full border border-glass-border transition-transform hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
                     style={{ background: a.value }}
@@ -148,22 +168,22 @@ export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
             </div>
 
             <SliderRow
-              label={`Transparência dos cards (${settings.cardOpacity}%)`}
+              label={t("settings.cardOpacity", { n: settings.cardOpacity })}
               value={settings.cardOpacity}
               onChange={(v) => update({ cardOpacity: v })}
             />
 
             <div className="space-y-2">
-              <Label htmlFor="set-bg">Plano de fundo</Label>
+              <Label htmlFor="set-bg">{t("settings.background")}</Label>
               <Select value={bg.kind} onValueChange={(v) => updateBackground({ kind: v as BackgroundKind })}>
                 <SelectTrigger id="set-bg">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="wallpaper">Wallpaper</SelectItem>
-                  <SelectItem value="gradient">Gradiente</SelectItem>
-                  <SelectItem value="solid">Cor sólida</SelectItem>
-                  <SelectItem value="image">Imagem</SelectItem>
+                  <SelectItem value="wallpaper">{t("settings.bg.wallpaper")}</SelectItem>
+                  <SelectItem value="gradient">{t("settings.bg.gradient")}</SelectItem>
+                  <SelectItem value="solid">{t("settings.bg.solid")}</SelectItem>
+                  <SelectItem value="image">{t("settings.bg.image")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -188,7 +208,7 @@ export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
 
             {bg.kind === "solid" && (
               <div className="space-y-1.5">
-                <Label htmlFor="set-color">Cor</Label>
+                <Label htmlFor="set-color">{t("settings.color")}</Label>
                 <Input
                   id="set-color"
                   type="color"
@@ -201,7 +221,7 @@ export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
 
             {bg.kind === "gradient" && (
               <div className="space-y-1.5">
-                <Label htmlFor="set-grad">Gradiente (CSS)</Label>
+                <Label htmlFor="set-grad">{t("settings.gradientCss")}</Label>
                 <Input
                   id="set-grad"
                   value={bg.gradient}
@@ -213,7 +233,7 @@ export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
             {bg.kind === "image" && (
               <div className="space-y-3">
                 <div className="space-y-1.5">
-                  <Label htmlFor="set-img">URL da imagem</Label>
+                  <Label htmlFor="set-img">{t("settings.imageUrl")}</Label>
                   <Input
                     id="set-img"
                     value={bg.imageUrl}
@@ -223,7 +243,7 @@ export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
                 </div>
                 <div className="flex flex-wrap gap-2">
                   <Button variant="secondary" size="sm" onClick={() => fileRef.current?.click()}>
-                    <Upload className="size-3.5" aria-hidden /> Enviar imagem
+                    <Upload className="size-3.5" aria-hidden /> {t("settings.upload")}
                   </Button>
                   {bg.hasUpload && (
                     <Button
@@ -234,7 +254,7 @@ export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
                         updateBackground({ hasUpload: false });
                       }}
                     >
-                      <Trash2 className="size-3.5" aria-hidden /> Remover envio
+                      <Trash2 className="size-3.5" aria-hidden /> {t("settings.removeUpload")}
                     </Button>
                   )}
                 </div>
@@ -243,7 +263,7 @@ export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
                   type="file"
                   accept="image/*"
                   className="hidden"
-                  aria-label="Enviar imagem de fundo"
+                  aria-label={t("settings.uploadAria")}
                   onChange={(e) => {
                     const file = e.target.files?.[0];
                     if (file) void onUpload(file);
@@ -254,18 +274,18 @@ export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
             )}
 
             <SliderRow
-              label={`Desfoque (${bg.blur}px)`}
+              label={t("settings.blur", { n: bg.blur })}
               value={bg.blur}
               max={30}
               onChange={(v) => updateBackground({ blur: v })}
             />
             <SliderRow
-              label={`Opacidade (${bg.opacity}%)`}
+              label={t("settings.opacity", { n: bg.opacity })}
               value={bg.opacity}
               onChange={(v) => updateBackground({ opacity: v })}
             />
             <SliderRow
-              label={`Escurecimento (${bg.dim}%)`}
+              label={t("settings.dim", { n: bg.dim })}
               value={bg.dim}
               onChange={(v) => updateBackground({ dim: v })}
             />
@@ -274,7 +294,7 @@ export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
           {/* PESQUISA */}
           <TabsContent value="pesquisa" className="mt-5 space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="set-engine">Mecanismo padrão</Label>
+              <Label htmlFor="set-engine">{t("settings.engine")}</Label>
               <Select
                 value={settings.searchEngine}
                 onValueChange={(v) => update({ searchEngine: v as SearchEngineId })}
@@ -291,36 +311,27 @@ export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
                 </SelectContent>
               </Select>
             </div>
-            <p className="text-xs text-muted-foreground">
-              Endereços digitados na barra são abertos diretamente quando reconhecidos como URL.
-            </p>
+            <p className="text-xs text-muted-foreground">{t("settings.engineNote")}</p>
           </TabsContent>
 
           {/* WIDGETS */}
           <TabsContent value="widgets" className="mt-5 space-y-5">
-            {WIDGET_LABELS.map((w) => (
-              <Row key={w.key} label={w.label} id={`set-w-${w.key}`}>
+            {WIDGET_KEYS.map((key) => (
+              <Row key={key} label={t(`widget.${key}`)} id={`set-w-${key}`}>
                 <Switch
-                  id={`set-w-${w.key}`}
-                  checked={settings.widgets[w.key]}
-                  onCheckedChange={(v) => update({ widgets: { ...settings.widgets, [w.key]: v } })}
+                  id={`set-w-${key}`}
+                  checked={settings.widgets[key]}
+                  onCheckedChange={(v) => update({ widgets: { ...settings.widgets, [key]: v } })}
                 />
               </Row>
             ))}
-
           </TabsContent>
 
           {/* PRIVACIDADE */}
           <TabsContent value="privacidade" className="mt-5 space-y-3 text-sm text-muted-foreground">
-            <p className="text-foreground">Suas configurações são armazenadas localmente neste navegador.</p>
-            <p>
-              Nada é enviado para servidores externos. Atalhos, notas, tema e preferências ficam apenas no seu
-              dispositivo, e a imagem de fundo enviada é guardada no armazenamento local do navegador.
-            </p>
-            <p>
-              Requisições externas acontecem somente quando você pesquisa, abre um atalho ou configura uma chave de API
-              de clima.
-            </p>
+            <p className="text-foreground">{t("settings.privacy1")}</p>
+            <p>{t("settings.privacy2")}</p>
+            <p>{t("settings.privacy3")}</p>
           </TabsContent>
         </Tabs>
       </SheetContent>
