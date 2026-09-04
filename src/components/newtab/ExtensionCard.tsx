@@ -27,15 +27,15 @@ const STORE_PACKAGES = [
 export function ExtensionCard() {
   const [busy, setBusy] = useState(false);
 
-  const download = async () => {
+  const download = async (file = "bittab-extensao.zip") => {
     setBusy(true);
     try {
-      const res = await fetch(ZIP_PATH);
+      const res = await fetch(`/${file}`);
       if (!res.ok) throw new Error(`Falha ao baixar (${res.status})`);
       const blob = await res.blob();
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = "bittab-extensao.zip";
+      a.download = file;
       a.click();
       URL.revokeObjectURL(a.href);
       toast.success("Download iniciado");
