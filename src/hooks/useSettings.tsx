@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, type ReactNode } from "react";
 import { useLocalStorage } from "./useLocalStorage";
+import { useTranslation } from "@/i18n";
 import type { PomodoroState, Settings, Shortcut, Task } from "@/types";
 
 /** Verde neon fixo do tema hacker/cyberpunk. */
@@ -22,6 +23,7 @@ export const WALLPAPERS = [
 ];
 
 export const DEFAULT_SETTINGS: Settings = {
+  language: "pt-BR",
   userName: "Alexandre",
   clock24h: true,
   showSeconds: false,
