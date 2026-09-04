@@ -105,6 +105,7 @@ export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
             <p className="text-xs text-muted-foreground">
               O clima é obtido em tempo real, sem necessidade de cadastro ou chave.
             </p>
+            <ExtensionCard />
           </TabsContent>
 
           {/* APARÊNCIA */}
