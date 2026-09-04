@@ -58,11 +58,30 @@ export interface Settings {
   background: BackgroundSettings;
 }
 
+export type WeatherAlertLevel = "info" | "warning" | "severe";
+
+export interface WeatherAlert {
+  id: string;
+  level: WeatherAlertLevel;
+  title: string;
+  detail: string;
+}
+
 export interface Weather {
   city: string;
+  region: string;
   temperature: number;
+  feelsLike: number;
   condition: string;
   humidity: number;
+  wind: number;
+  gusts: number;
+  precipitationChance: number;
+  uvIndex: number;
+  min: number;
+  max: number;
+  updatedAt: number;
+  alerts: WeatherAlert[];
   icon: "sun" | "cloud" | "cloud-sun" | "rain" | "snow" | "storm" | "fog";
   demo: boolean;
 }

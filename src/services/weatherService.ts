@@ -1,4 +1,4 @@
-import type { Weather } from "@/types";
+import type { Weather, WeatherAlert } from "@/types";
 
 /**
  * Weather service layer. Components never call APIs directly.
@@ -18,7 +18,17 @@ interface ForecastResponse {
   current?: {
     temperature_2m?: number;
     relative_humidity_2m?: number;
+    apparent_temperature?: number;
     weather_code?: number;
+    wind_speed_10m?: number;
+    wind_gusts_10m?: number;
+    precipitation_probability?: number;
+  };
+  daily?: {
+    temperature_2m_max?: number[];
+    temperature_2m_min?: number[];
+    uv_index_max?: number[];
+    precipitation_probability_max?: number[];
   };
 }
 
@@ -79,23 +89,121 @@ async function geocode(city: string) {
   };
 }
 
+/** Builds readable alerts from real measurements (no third-party alert feed needed). */
+function buildAlerts(w: {
+  code: number;
+  temperature: number;
+  feelsLike: number;
+  gusts: number;
+  precipitationChance: number;
+  uvIndex: number;
+  humidity: number;
+}): WeatherAlert[] {
+  const alerts: WeatherAlert[] = [];
+
+  if (w.code >= 95) {
+    alerts.push({
+      id: "storm",
+      level: "severe",
+      title: "Risco de tempestade",
+      detail: "Evite áreas abertas e desligue equipamentos sensíveis.",
+    });
+  }
+  if (w.gusts >= 60) {
+    alerts.push({
+      id: "wind",
+      level: w.gusts >= 90 ? "severe" : "warning",
+      title: `Rajadas de ${Math.round(w.gusts)} km/h`,
+      detail: "Fixe objetos soltos e cuidado com quedas de energia.",
+    });
+  }
+  if (w.precipitationChance >= 70) {
+    alerts.push({
+      id: "rain",
+      level: "warning",
+      title: `${Math.round(w.precipitationChance)}% de chance de chuva`,
+      detail: "Leve guarda-chuva e proteja seus equipamentos.",
+    });
+  }
+  if (w.temperature >= 35 || w.feelsLike >= 38) {
+    alerts.push({
+      id: "heat",
+      level: w.temperature >= 39 ? "severe" : "warning",
+      title: "Calor intenso",
+      detail: "Hidrate-se e evite exposição ao sol no meio do dia.",
+    });
+  }
+  if (w.temperature <= 5) {
+    alerts.push({
+      id: "cold",
+      level: w.temperature <= 0 ? "severe" : "warning",
+      title: "Frio intenso",
+      detail: "Agasalhe-se bem e atenção ao risco de geada.",
+    });
+  }
+  if (w.uvIndex >= 8) {
+    alerts.push({
+      id: "uv",
+      level: w.uvIndex >= 11 ? "severe" : "warning",
+      title: `Índice UV ${Math.round(w.uvIndex)}`,
+      detail: "Use protetor solar e evite o sol entre 10h e 16h.",
+    });
+  }
+  if (w.humidity <= 30) {
+    alerts.push({
+      id: "dry",
+      level: "info",
+      title: "Ar seco",
+      detail: "Beba água com frequência; risco de desconforto respiratório.",
+    });
+  }
+
+  return alerts;
+}
+
 /** Current weather for a city name. Throws WeatherError with a readable message. */
 export async function getWeather(city: string): Promise<Weather> {
   const place = await geocode(city);
   const res = await fetch(
     `${FORECAST_URL}?latitude=${place.latitude}&longitude=${place.longitude}` +
-      `&current=temperature_2m,relative_humidity_2m,weather_code&timezone=auto`,
+      "&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code," +
+      "wind_speed_10m,wind_gusts_10m,precipitation_probability" +
+      "&daily=temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max" +
+      "&forecast_days=1&timezone=auto",
   );
   if (!res.ok) throw new WeatherError("Não foi possível obter o clima agora.");
   const data = (await res.json()) as ForecastResponse;
-  const temp = data.current?.temperature_2m;
+  const cur = data.current;
+  const temp = cur?.temperature_2m;
   if (typeof temp !== "number") throw new WeatherError("Não foi possível obter o clima agora.");
-  const { label, icon } = describe(data.current?.weather_code ?? 3);
+
+  const code = cur?.weather_code ?? 3;
+  const { label, icon } = describe(code);
+  const daily = data.daily;
+  const humidity = Math.round(cur?.relative_humidity_2m ?? 0);
+  const gusts = Math.round(cur?.wind_gusts_10m ?? 0);
+  const uvIndex = daily?.uv_index_max?.[0] ?? 0;
+  const precipitationChance = Math.round(
+    cur?.precipitation_probability ?? daily?.precipitation_probability_max?.[0] ?? 0,
+  );
+  const feelsLike = Math.round(cur?.apparent_temperature ?? temp);
+  const temperature = Math.round(temp);
+
   return {
     city: place.name,
-    temperature: Math.round(temp),
+    region: place.region,
+    temperature,
+    feelsLike,
     condition: label,
-    humidity: Math.round(data.current?.relative_humidity_2m ?? 0),
+    humidity,
+    wind: Math.round(cur?.wind_speed_10m ?? 0),
+    gusts,
+    precipitationChance,
+    uvIndex: Math.round(uvIndex),
+    min: Math.round(daily?.temperature_2m_min?.[0] ?? temp),
+    max: Math.round(daily?.temperature_2m_max?.[0] ?? temp),
+    updatedAt: Date.now(),
+    alerts: buildAlerts({ code, temperature, feelsLike, gusts, precipitationChance, uvIndex, humidity }),
     icon,
     demo: false,
   };
