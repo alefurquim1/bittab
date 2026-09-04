@@ -77,10 +77,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "bit01tec • Nova Guia" },
+      { title: "BitTab • Nova Guia" },
       { name: "description", content: "Nova guia rápida com relógio, busca, atalhos e widgets." },
-      { name: "author", content: "bit01tec" },
-      { property: "og:title", content: "bit01tec • Nova Guia" },
+      { name: "author", content: "BitTab" },
+      { property: "og:title", content: "BitTab • Nova Guia" },
       { property: "og:description", content: "Nova guia rápida com relógio, busca, atalhos e widgets." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

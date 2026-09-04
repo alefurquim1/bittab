@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * bit01tec new tab — design system.
+ * BitTab new tab — design system.
  * Dark-first, graphite surfaces, cyan/blue accent, glassmorphism.
  * --accent-color and --card-alpha are set at runtime from user settings.
  */

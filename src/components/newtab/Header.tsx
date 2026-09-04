@@ -13,7 +13,7 @@ export function Header({ onOpenSettings }: { onOpenSettings: (tab: string) => vo
           <span className="clock-digits text-accent-color text-sm font-bold">01</span>
         </div>
         <div className="min-w-0">
-          <p className="clock-digits truncate text-sm font-semibold tracking-tight">bit01tec</p>
+          <p className="clock-digits truncate text-sm font-semibold tracking-tight">BitTab</p>
           <p className="flex items-center gap-1.5 text-[0.65rem] text-muted-foreground">
             <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px] shadow-emerald-400/70" />
             Online
