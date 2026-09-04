@@ -120,10 +120,13 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const root = document.documentElement;
     const apply = () => {
+      const hacker = s.value.theme === "hacker";
       const dark =
+        hacker ||
         s.value.theme === "dark" ||
         (s.value.theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
       root.classList.toggle("dark", dark);
+      root.classList.toggle("theme-hacker", hacker);
     };
     apply();
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
