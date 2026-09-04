@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ExtensionCard } from "@/components/newtab/ExtensionCard";
+import { HomepageCard } from "@/components/newtab/HomepageCard";
 import { ACCENTS, useStore, WALLPAPERS } from "@/hooks/useSettings";
 import { SEARCH_ENGINES } from "@/services/searchService";
 import { clearBackgroundImage, saveBackgroundImage } from "@/services/imageStore";
