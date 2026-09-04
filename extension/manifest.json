@@ -1,9 +1,11 @@
 {
   "manifest_version": 3,
   "name": "BitTab — Nova Guia",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Substitui a Nova Guia do navegador pelo BitTab: relógio, busca, atalhos e widgets.",
-  "permissions": ["storage"],
+  "permissions": [
+    "storage"
+  ],
   "chrome_url_overrides": {
     "newtab": "newtab.html"
   },
@@ -28,5 +30,6 @@
       "id": "bittab@bit01tec.dev",
       "strict_min_version": "115.0"
     }
-  }
+  },
+  "homepage_url": "https://bittab.lovable.app/"
 }
