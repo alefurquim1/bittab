@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, type ReactNode } from "react";
 import { useLocalStorage } from "./useLocalStorage";
+import { useTranslation } from "@/i18n";
 import type { PomodoroState, Settings, Shortcut, Task } from "@/types";
 
 /** Verde neon fixo do tema hacker/cyberpunk. */
@@ -22,6 +23,7 @@ export const WALLPAPERS = [
 ];
 
 export const DEFAULT_SETTINGS: Settings = {
+  language: "pt-BR",
   userName: "Alexandre",
   clock24h: true,
   showSeconds: false,
@@ -157,4 +159,14 @@ export function useStore() {
   const ctx = useContext(StoreContext);
   if (!ctx) throw new Error("useStore must be used inside SettingsProvider");
   return ctx;
+}
+
+/** Interface language helpers bound to the saved preference. */
+export function useI18n() {
+  const { settings } = useStore();
+  const lang = settings.language ?? "pt-BR";
+  useEffect(() => {
+    document.documentElement.lang = lang === "pt-BR" ? "pt-BR" : lang;
+  }, [lang]);
+  return useTranslation(lang);
 }

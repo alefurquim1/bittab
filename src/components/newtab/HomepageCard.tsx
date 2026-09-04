@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Copy, Home } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/hooks/useSettings";
 
 const FALLBACK_URL = "https://bittab.lovable.app/";
 
@@ -10,6 +11,7 @@ const FALLBACK_URL = "https://bittab.lovable.app/";
  * to change this setting, so we copy the address and show where to paste it.
  */
 export function HomepageCard() {
+  const { t } = useI18n();
   const [copied, setCopied] = useState(false);
 
   const url = typeof window !== "undefined" ? window.location.origin + "/" : FALLBACK_URL;
@@ -18,10 +20,10 @@ export function HomepageCard() {
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
-      toast.success("Endereço copiado");
+      toast.success(t("home.copiedToast"));
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      toast.error("Copie manualmente: " + url);
+      toast.error(t("home.copyManual") + url);
     }
   };
 
@@ -29,32 +31,20 @@ export function HomepageCard() {
     <div className="space-y-3 rounded-xl border border-glass-border p-4">
       <div className="space-y-1">
         <p className="flex items-center gap-2 text-sm font-medium">
-          <Home className="size-4 text-accent-color" aria-hidden /> Definir como página inicial
+          <Home className="size-4 text-accent-color" aria-hidden /> {t("home.title")}
         </p>
-        <p className="text-xs text-muted-foreground">
-          Por segurança, os navegadores só permitem essa troca nas próprias configurações. Copie o endereço e cole no
-          campo de página inicial.
-        </p>
+        <p className="text-xs text-muted-foreground">{t("home.desc")}</p>
       </div>
 
       <Button type="button" variant="secondary" onClick={copy} className="w-full">
         <Copy className="size-4" aria-hidden />
-        {copied ? "Endereço copiado!" : "Copiar endereço do BitTab"}
+        {copied ? t("home.copied") : t("home.copy")}
       </Button>
 
       <ol className="list-decimal space-y-1 pl-5 text-xs text-muted-foreground">
-        <li>
-          Chrome / Brave: <span className="font-medium text-foreground">chrome://settings/onStartup</span> → "Abrir uma
-          página específica" → colar o endereço.
-        </li>
-        <li>
-          Edge: <span className="font-medium text-foreground">edge://settings/startHomeNTP</span> → botão Página
-          inicial → colar o endereço.
-        </li>
-        <li>
-          Firefox: <span className="font-medium text-foreground">about:preferences#home</span> → Página inicial →
-          "URLs personalizados" → colar o endereço.
-        </li>
+        <li>{t("home.step1")}</li>
+        <li>{t("home.step2")}</li>
+        <li>{t("home.step3")}</li>
       </ol>
     </div>
   );

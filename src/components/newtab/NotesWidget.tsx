@@ -1,20 +1,21 @@
 import { Eraser } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { useStore } from "@/hooks/useSettings";
+import { useI18n, useStore } from "@/hooks/useSettings";
 
 export default function NotesWidget() {
   const { notes, setNotes } = useStore();
+  const { t } = useI18n();
 
   return (
     <article className="glass rise-in rounded-2xl p-4">
       <div className="flex items-center justify-between gap-2">
-        <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">Notas rápidas</h3>
+        <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">{t("notes.title")}</h3>
         <Button
           variant="ghost"
           size="icon"
           className="size-7"
-          aria-label="Limpar notas"
+          aria-label={t("notes.clear")}
           onClick={() => setNotes("")}
         >
           <Eraser className="size-3.5" aria-hidden />
@@ -22,13 +23,13 @@ export default function NotesWidget() {
       </div>
       <Textarea
         id="quick-notes"
-        aria-label="Notas rápidas"
+        aria-label={t("notes.title")}
         value={notes}
         onChange={(e) => setNotes(e.target.value)}
-        placeholder="Responder cliente…"
+        placeholder={t("notes.placeholder")}
         className="mt-3 min-h-28 resize-none border-glass-border bg-transparent text-sm"
       />
-      <p className="mt-2 text-[0.66rem] text-muted-foreground">Salvo automaticamente neste navegador.</p>
+      <p className="mt-2 text-[0.66rem] text-muted-foreground">{t("notes.saved")}</p>
     </article>
   );
 }

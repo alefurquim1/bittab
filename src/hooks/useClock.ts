@@ -31,39 +31,16 @@ export function useClock() {
   return now;
 }
 
-export function greetingFor(date: Date) {
+/** Returns the translation key for the current greeting. */
+export function greetingKey(date: Date) {
   const h = date.getHours();
-  if (h >= 5 && h < 12) return "Bom dia";
-  if (h >= 12 && h < 18) return "Boa tarde";
-  return "Boa noite";
+  if (h >= 5 && h < 12) return "clock.morning";
+  if (h >= 12 && h < 18) return "clock.afternoon";
+  return "clock.evening";
 }
 
-const WEEKDAYS = [
-  "domingo",
-  "segunda-feira",
-  "terça-feira",
-  "quarta-feira",
-  "quinta-feira",
-  "sexta-feira",
-  "sábado",
-];
-const MONTHS = [
-  "janeiro",
-  "fevereiro",
-  "março",
-  "abril",
-  "maio",
-  "junho",
-  "julho",
-  "agosto",
-  "setembro",
-  "outubro",
-  "novembro",
-  "dezembro",
-];
-
-export function formatLongDate(d: Date) {
-  return `${WEEKDAYS[d.getDay()] ?? ""}, ${String(d.getDate()).padStart(2, "0")} de ${MONTHS[d.getMonth()] ?? ""}`;
+export function formatLongDate(d: Date, locale = "pt-BR") {
+  return new Intl.DateTimeFormat(locale, { weekday: "long", day: "2-digit", month: "long" }).format(d);
 }
 
 export function formatTime(d: Date, use24h: boolean, showSeconds: boolean) {

@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { LINK_CATEGORIES } from "@/data/linkHub";
+import { useI18n } from "@/hooks/useSettings";
 
 const STORAGE_KEY = "bittab:linkhub:collapsed";
 
 export default function LinkHubWidget() {
+  const { t } = useI18n();
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
   const [loaded, setLoaded] = useState(false);
 
@@ -32,7 +34,7 @@ export default function LinkHubWidget() {
 
 
   return (
-    <section aria-label="Plataformas por categoria" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    <section aria-label={t("links.section")} className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
       {LINK_CATEGORIES.map((cat) => {
         const isClosed = collapsed[cat.id] === true;
         return (
@@ -45,7 +47,7 @@ export default function LinkHubWidget() {
             >
               <h3 className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
                 <span aria-hidden>{cat.icon}</span>
-                {cat.title}
+                {t(`cat.${cat.id}`)}
               </h3>
               <ChevronDown
                 className={`size-4 shrink-0 text-muted-foreground transition-transform ${isClosed ? "-rotate-90" : ""}`}

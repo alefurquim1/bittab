@@ -12,13 +12,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { MAX_SHORTCUTS, useStore } from "@/hooks/useSettings";
+import { MAX_SHORTCUTS, useI18n, useStore } from "@/hooks/useSettings";
 import { parseUrl } from "@/services/searchService";
 import type { Shortcut } from "@/types";
 import { ShortcutCard } from "./ShortcutCard";
 
 export function ShortcutGrid() {
   const { shortcuts, setShortcuts } = useStore();
+  const { t } = useI18n();
   const [editing, setEditing] = useState<Shortcut | null>(null);
   const [open, setOpen] = useState(false);
   const dragFrom = useRef<number | null>(null);
@@ -31,16 +32,16 @@ export function ShortcutGrid() {
     const rawIcon = String(data.get("icon") ?? "").trim();
     const url = parseUrl(rawUrl);
     if (!name || !url) {
-      toast.error("Informe um nome e um endereço válido (http/https).");
+      toast.error(t("shortcuts.invalid"));
       return;
     }
     const icon = rawIcon ? (parseUrl(rawIcon) ?? "") : "";
     if (editing) {
       setShortcuts((prev) => prev.map((s) => (s.id === editing.id ? { ...s, name, url, icon } : s)));
-      toast.success("Atalho atualizado.");
+      toast.success(t("shortcuts.updated"));
     } else {
       setShortcuts((prev) => [...prev, { id: crypto.randomUUID(), name, url, icon }]);
-      toast.success("Atalho adicionado.");
+      toast.success(t("shortcuts.added"));
     }
     setOpen(false);
     setEditing(null);
@@ -62,7 +63,7 @@ export function ShortcutGrid() {
     <section aria-labelledby="shortcuts-title" className="rise-in w-full">
       <div className="mb-3 flex items-center justify-between gap-3">
         <h2 id="shortcuts-title" className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-          Seus atalhos
+          {t("shortcuts.title")}
         </h2>
         <Button
           variant="ghost"
@@ -70,14 +71,14 @@ export function ShortcutGrid() {
           className="h-8 text-xs"
           onClick={() => {
             if (shortcuts.length >= MAX_SHORTCUTS) {
-              toast.error(`Limite de ${MAX_SHORTCUTS} atalhos atingido.`);
+              toast.error(t("shortcuts.limit", { max: MAX_SHORTCUTS }));
               return;
             }
             setEditing(null);
             setOpen(true);
           }}
         >
-          <Plus className="size-3.5" aria-hidden /> Adicionar atalho
+          <Plus className="size-3.5" aria-hidden /> {t("shortcuts.add")}
         </Button>
       </div>
 
@@ -102,14 +103,12 @@ export function ShortcutGrid() {
             }}
             onRemove={() => {
               setShortcuts((prev) => prev.filter((x) => x.id !== s.id));
-              toast.success("Atalho removido.");
+              toast.success(t("shortcuts.removed"));
             }}
           />
         ))}
       </div>
-      <p className="mt-2 text-[0.66rem] text-muted-foreground">
-        Arraste os atalhos para reorganizar • até {MAX_SHORTCUTS} itens
-      </p>
+      <p className="mt-2 text-[0.66rem] text-muted-foreground">{t("shortcuts.hint", { max: MAX_SHORTCUTS })}</p>
 
       <Dialog
         open={open}
@@ -120,8 +119,8 @@ export function ShortcutGrid() {
       >
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>{editing ? "Editar atalho" : "Novo atalho"}</DialogTitle>
-            <DialogDescription>Os atalhos ficam salvos apenas neste navegador.</DialogDescription>
+            <DialogTitle>{editing ? t("shortcuts.edit") : t("shortcuts.new")}</DialogTitle>
+            <DialogDescription>{t("shortcuts.dialogDesc")}</DialogDescription>
           </DialogHeader>
           <form
             onSubmit={(e) => {
@@ -131,7 +130,7 @@ export function ShortcutGrid() {
             className="space-y-4"
           >
             <div className="space-y-1.5">
-              <Label htmlFor="sc-name">Nome</Label>
+              <Label htmlFor="sc-name">{t("shortcuts.name")}</Label>
               <Input id="sc-name" name="name" defaultValue={editing?.name ?? ""} placeholder="GitHub" required />
             </div>
             <div className="space-y-1.5">
@@ -139,11 +138,11 @@ export function ShortcutGrid() {
               <Input id="sc-url" name="url" defaultValue={editing?.url ?? ""} placeholder="https://github.com" required />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="sc-icon">Ícone (URL, opcional)</Label>
+              <Label htmlFor="sc-icon">{t("shortcuts.icon")}</Label>
               <Input id="sc-icon" name="icon" defaultValue={editing?.icon ?? ""} placeholder="https://.../icone.png" />
             </div>
             <DialogFooter>
-              <Button type="submit">Salvar</Button>
+              <Button type="submit">{t("shortcuts.save")}</Button>
             </DialogFooter>
           </form>
         </DialogContent>
