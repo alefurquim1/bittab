@@ -35,6 +35,7 @@ export interface WidgetToggles {
   shortcuts: boolean;
   tasks: boolean;
   pomodoro: boolean;
+  currency: boolean;
 }
 
 export interface Settings {
