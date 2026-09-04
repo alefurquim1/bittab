@@ -13,7 +13,7 @@ export interface QuickTool {
   url: string;
 }
 
-export type ThemeMode = "dark" | "light" | "system";
+export type ThemeMode = "dark" | "light" | "system" | "hacker";
 
 export type BackgroundKind = "solid" | "gradient" | "image" | "wallpaper";
 
