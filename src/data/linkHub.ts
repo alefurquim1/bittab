@@ -42,6 +42,8 @@ export const LINK_CATEGORIES: LinkCategory[] = [
       { name: "Linux", url: "https://www.kernel.org" },
       { name: "Ubuntu", url: "https://ubuntu.com" },
       { name: "Fedora", url: "https://fedoraproject.org" },
+      { name: "DistroWatch", url: "https://distrowatch.com/" },
+      { name: "DistroWiz", url: "https://www.distrowiz.com/" },
     ],
   },
   {
