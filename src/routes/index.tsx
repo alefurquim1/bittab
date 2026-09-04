@@ -130,6 +130,15 @@ function NewTab() {
         BitTab • Sua nova guia. Do seu jeito.
         <span className="mx-1.5 opacity-40">|</span>
         Tecnologia, Segurança &amp; Produtividade
+        <span className="mx-1.5 opacity-40">|</span>
+        <a
+          href="https://www.bit01tec.com.br"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-accent-color hover:underline"
+        >
+          @bit01tec — www.bit01tec.com.br
+        </a>
       </footer>
 
       <SettingsPanel open={panelOpen} tab={tab} onOpenChange={setPanelOpen} onTabChange={setTab} />
