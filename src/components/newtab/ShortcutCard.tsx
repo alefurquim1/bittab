@@ -29,6 +29,8 @@ export function ShortcutCard({ shortcut, onEdit, onRemove, onDragStart, onDragEn
     >
       <a
         href={href || undefined}
+        target="_blank"
+        rel="noopener noreferrer"
         className="glass glass-hover flex flex-col items-center gap-2 rounded-2xl px-2 py-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
       >
         <span className="grid size-10 place-items-center overflow-hidden rounded-full bg-secondary/80">
