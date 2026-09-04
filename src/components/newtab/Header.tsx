@@ -1,9 +1,10 @@
 import { Moon, Settings as SettingsIcon, Sparkles, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useStore } from "@/hooks/useSettings";
+import { useI18n, useStore } from "@/hooks/useSettings";
 
 export function Header({ onOpenSettings }: { onOpenSettings: (tab: string) => void }) {
   const { settings, update } = useStore();
+  const { t } = useI18n();
   const isDark = settings.theme !== "light";
 
   return (
@@ -16,7 +17,7 @@ export function Header({ onOpenSettings }: { onOpenSettings: (tab: string) => vo
           <p className="clock-digits truncate text-sm font-semibold tracking-tight">BitTab</p>
           <p className="flex items-center gap-1.5 text-[0.65rem] text-muted-foreground">
             <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px] shadow-emerald-400/70" />
-            Online
+            {t("header.online")}
           </p>
         </div>
       </div>
@@ -25,18 +26,18 @@ export function Header({ onOpenSettings }: { onOpenSettings: (tab: string) => vo
         <Button
           variant="ghost"
           size="icon"
-          aria-label="Personalizar aparência"
+          aria-label={t("header.appearance")}
           onClick={() => onOpenSettings("aparencia")}
         >
           <Sparkles className="size-4" />
         </Button>
-        <Button variant="ghost" size="icon" aria-label="Abrir configurações" onClick={() => onOpenSettings("geral")}>
+        <Button variant="ghost" size="icon" aria-label={t("header.settings")} onClick={() => onOpenSettings("geral")}>
           <SettingsIcon className="size-4" />
         </Button>
         <Button
           variant="ghost"
           size="icon"
-          aria-label={isDark ? "Ativar modo claro" : "Ativar modo escuro"}
+          aria-label={isDark ? t("header.light") : t("header.dark")}
           onClick={() => update({ theme: isDark ? "light" : "dark" })}
         >
           {isDark ? <Sun className="size-4" /> : <Moon className="size-4" />}

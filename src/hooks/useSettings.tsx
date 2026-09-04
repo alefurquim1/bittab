@@ -160,3 +160,13 @@ export function useStore() {
   if (!ctx) throw new Error("useStore must be used inside SettingsProvider");
   return ctx;
 }
+
+/** Interface language helpers bound to the saved preference. */
+export function useI18n() {
+  const { settings } = useStore();
+  const lang = settings.language ?? "pt-BR";
+  useEffect(() => {
+    document.documentElement.lang = lang === "pt-BR" ? "pt-BR" : lang;
+  }, [lang]);
+  return useTranslation(lang);
+}
