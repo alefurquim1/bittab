@@ -1,9 +1,24 @@
 import { useState } from "react";
-import { Download } from "lucide-react";
+import { Download, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
 const ZIP_PATH = "/bittab-extensao.zip";
+
+const STORE_PACKAGES = [
+  {
+    file: "bittab-chrome-webstore.zip",
+    label: "Pacote Chrome Web Store",
+    portal: "https://chromewebstore.google.com/category/extensions",
+    portalLabel: "Chrome Web Store",
+  },
+  {
+    file: "bittab-firefox-addons.zip",
+    label: "Pacote Firefox Add-ons",
+    portal: "https://addons.mozilla.org/en-US/firefox/extensions/",
+    portalLabel: "Firefox Add-ons",
+  },
+];
 
 /**
  * Download + install instructions for the browser extension that turns
