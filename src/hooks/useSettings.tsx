@@ -57,11 +57,7 @@ export const DEFAULT_SHORTCUTS: Shortcut[] = [
   { id: "s8", name: "YouTube", url: "https://www.youtube.com" },
 ];
 
-export const DEFAULT_TASKS: Task[] = [
-  { id: "k1", title: "Revisar chamados do dia", done: false, createdAt: 0 },
-  { id: "k2", title: "Atualizar antivírus dos clientes", done: false, createdAt: 0 },
-  { id: "k3", title: "Backup do servidor", done: true, createdAt: 0 },
-];
+export const DEFAULT_TASKS: Task[] = [];
 
 export const DEFAULT_POMODORO: PomodoroState = {
   phase: "focus",
@@ -94,7 +90,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   const sc = useLocalStorage<Shortcut[]>("bit01tec.shortcuts", DEFAULT_SHORTCUTS);
   const tk = useLocalStorage<Task[]>("bit01tec.tasks", DEFAULT_TASKS);
   const pm = useLocalStorage<PomodoroState>("bit01tec.pomodoro", DEFAULT_POMODORO);
-  const nt = useLocalStorage<string>("bit01tec.notes", "Verificar backup do notebook\nPublicar matéria às 18h");
+  const nt = useLocalStorage<string>("bit01tec.notes", "");
 
   const update = useCallback(
     (patch: Partial<Settings>) => s.setValue((prev) => ({ ...prev, ...patch })),
