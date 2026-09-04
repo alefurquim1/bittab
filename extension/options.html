@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BitTab — Opções</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      body {
+        margin: 0;
+        min-width: 320px;
+        padding: 24px;
+        background: #0b1020;
+        color: #e8ecf5;
+        font-family: ui-sans-serif, system-ui, sans-serif;
+      }
+      h1 {
+        font-size: 18px;
+        margin: 0 0 4px;
+      }
+      p {
+        color: #a7b0c4;
+        font-size: 13px;
+        margin: 0 0 16px;
+      }
+      label {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 6px;
+      }
+      input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(255, 255, 255, 0.06);
+        color: inherit;
+        font: inherit;
+      }
+      button {
+        margin-top: 12px;
+        padding: 10px 16px;
+        border: 0;
+        border-radius: 10px;
+        background: #6fe3ff;
+        color: #0b1020;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      #status {
+        margin-top: 10px;
+        font-size: 13px;
+        color: #7ef0b0;
+        min-height: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>BitTab</h1>
+    <p>Endereço que será aberto em cada nova guia.</p>
+    <label for="url">Endereço da página</label>
+    <input id="url" type="url" placeholder="https://..." />
+    <button id="save" type="button">Salvar</button>
+    <div id="status" role="status"></div>
+    <script src="options.js"></script>
+  </body>
+</html>
