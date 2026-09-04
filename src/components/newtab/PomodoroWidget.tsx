@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 import { useStore } from "@/hooks/useSettings";
 import type { PomodoroPhase } from "@/types";
 
-const PHASES: Record<PomodoroPhase, { label: string; minutes: number }> = {
+const PHASES = {
   focus: { label: "Foco", minutes: 25 },
   break: { label: "Pausa", minutes: 5 },
   long: { label: "Pausa longa", minutes: 15 },
-};
+} as const;
 
 function pad(n: number) {
   return String(Math.max(0, n)).padStart(2, "0");
