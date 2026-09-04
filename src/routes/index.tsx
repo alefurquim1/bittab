@@ -11,7 +11,7 @@ import { SettingsPanel } from "@/components/newtab/SettingsPanel";
 
 const WeatherWidget = lazy(() => import("@/components/newtab/WeatherWidget"));
 const NotesWidget = lazy(() => import("@/components/newtab/NotesWidget"));
-const ToolsWidget = lazy(() => import("@/components/newtab/ToolsWidget"));
+const LinkHubWidget = lazy(() => import("@/components/newtab/LinkHubWidget"));
 const TasksWidget = lazy(() => import("@/components/newtab/TasksWidget"));
 const PomodoroWidget = lazy(() => import("@/components/newtab/PomodoroWidget"));
 
@@ -80,7 +80,7 @@ function NewTab() {
 
   const widgets = settings.widgets;
   const anyWidget =
-    widgets.weather || widgets.notes || widgets.tools || widgets.tasks || widgets.pomodoro;
+    widgets.weather || widgets.notes || widgets.tasks || widgets.pomodoro;
 
   return (
     <div className="relative flex min-h-screen flex-col">
@@ -117,12 +117,13 @@ function NewTab() {
                 <PomodoroWidget />
               </Suspense>
             )}
-            {widgets.tools && (
-              <Suspense fallback={<WidgetFallback />}>
-                <ToolsWidget />
-              </Suspense>
-            )}
           </section>
+        )}
+
+        {widgets.links && (
+          <Suspense fallback={<WidgetFallback />}>
+            <LinkHubWidget />
+          </Suspense>
         )}
       </main>
 

@@ -32,14 +32,14 @@ interface Props {
 const WIDGET_LABELS: Array<{ key: keyof WidgetToggles; label: string }> = [
   { key: "weather", label: "Clima" },
   { key: "notes", label: "Notas rápidas" },
-  { key: "tools", label: "Ferramentas" },
+  { key: "links", label: "Plataformas por categoria" },
   { key: "shortcuts", label: "Atalhos" },
   { key: "tasks", label: "Tarefas" },
   { key: "pomodoro", label: "Pomodoro" },
 ];
 
 export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
-  const { settings, update, updateBackground, tools, setTools } = useStore();
+  const { settings, update, updateBackground } = useStore();
   const bg = settings.background;
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -307,44 +307,6 @@ export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
               </Row>
             ))}
 
-            <div className="space-y-2 border-t border-glass-border pt-4">
-              <Label>Links de ferramentas</Label>
-              <ul className="space-y-1">
-                {tools.map((t) => (
-                  <li key={t.id} className="flex items-center justify-between gap-2 text-sm">
-                    <span className="truncate">{t.name}</span>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="size-7"
-                      aria-label={`Remover ${t.name}`}
-                      onClick={() => setTools((prev) => prev.filter((x) => x.id !== t.id))}
-                    >
-                      <Trash2 className="size-3.5" aria-hidden />
-                    </Button>
-                  </li>
-                ))}
-              </ul>
-              <form
-                className="flex flex-wrap gap-2 pt-2"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const data = new FormData(e.currentTarget);
-                  const name = String(data.get("tname") ?? "").trim();
-                  const url = String(data.get("turl") ?? "").trim();
-                  if (!name || !url) return;
-                  setTools((prev) => [...prev, { id: crypto.randomUUID(), name, url }]);
-                  e.currentTarget.reset();
-                  toast.success("Ferramenta adicionada.");
-                }}
-              >
-                <Input name="tname" placeholder="Nome" className="min-w-24 flex-1" aria-label="Nome da ferramenta" />
-                <Input name="turl" placeholder="https://…" className="min-w-32 flex-1" aria-label="URL da ferramenta" />
-                <Button type="submit" size="sm">
-                  Adicionar
-                </Button>
-              </form>
-            </div>
           </TabsContent>
 
           {/* PRIVACIDADE */}

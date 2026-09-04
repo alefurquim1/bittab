@@ -7,12 +7,6 @@ export interface Shortcut {
   icon?: string;
 }
 
-export interface QuickTool {
-  id: string;
-  name: string;
-  url: string;
-}
-
 export type ThemeMode = "dark" | "light" | "system" | "hacker";
 
 export type BackgroundKind = "solid" | "gradient" | "image" | "wallpaper";
@@ -37,7 +31,7 @@ export interface BackgroundSettings {
 export interface WidgetToggles {
   weather: boolean;
   notes: boolean;
-  tools: boolean;
+  links: boolean;
   shortcuts: boolean;
   tasks: boolean;
   pomodoro: boolean;
