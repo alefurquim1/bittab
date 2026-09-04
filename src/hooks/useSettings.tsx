@@ -1,0 +1,144 @@
+import { createContext, useCallback, useContext, useEffect, useMemo, type ReactNode } from "react";
+import { useLocalStorage } from "./useLocalStorage";
+import type { QuickTool, Settings, Shortcut } from "@/types";
+
+export const ACCENTS = [
+  { id: "cyan", label: "Ciano", value: "oklch(0.78 0.13 205)" },
+  { id: "blue", label: "Azul", value: "oklch(0.68 0.16 255)" },
+  { id: "teal", label: "Verde-água", value: "oklch(0.75 0.13 175)" },
+  { id: "violet", label: "Violeta", value: "oklch(0.68 0.16 290)" },
+  { id: "amber", label: "Âmbar", value: "oklch(0.8 0.14 75)" },
+  { id: "rose", label: "Rosé", value: "oklch(0.7 0.16 15)" },
+];
+
+export const WALLPAPERS = [
+  { id: "deep", label: "Deep Space", value: "radial-gradient(120% 120% at 20% 10%, oklch(0.32 0.07 250) 0%, oklch(0.16 0.03 260) 45%, oklch(0.11 0.02 265) 100%)" },
+  { id: "grid", label: "Grafite", value: "radial-gradient(110% 110% at 80% 0%, oklch(0.28 0.03 230) 0%, oklch(0.14 0.01 250) 55%, oklch(0.1 0.005 260) 100%)" },
+  { id: "aurora", label: "Aurora", value: "linear-gradient(140deg, oklch(0.2 0.05 260) 0%, oklch(0.3 0.08 200) 45%, oklch(0.15 0.03 280) 100%)" },
+  { id: "carbon", label: "Carbono", value: "linear-gradient(180deg, oklch(0.18 0.01 250) 0%, oklch(0.1 0.005 260) 100%)" },
+];
+
+export const DEFAULT_SETTINGS: Settings = {
+  userName: "Alexandre",
+  clock24h: true,
+  showSeconds: false,
+  showDate: true,
+  theme: "dark",
+  accent: "oklch(0.78 0.13 205)",
+  cardOpacity: 55,
+  searchEngine: "google",
+  widgets: { weather: true, notes: true, tools: true, shortcuts: true },
+  weatherCity: "São Paulo",
+  weatherApiKey: "",
+  background: {
+    kind: "wallpaper",
+    color: "#0b0d12",
+    gradient: "linear-gradient(140deg, #0b0d12 0%, #131a24 100%)",
+    imageUrl: "",
+    wallpaper: "deep",
+    hasUpload: false,
+    blur: 0,
+    opacity: 100,
+    dim: 25,
+  },
+};
+
+export const DEFAULT_SHORTCUTS: Shortcut[] = [
+  { id: "s1", name: "Google", url: "https://www.google.com" },
+  { id: "s2", name: "YouTube", url: "https://www.youtube.com" },
+  { id: "s3", name: "Gmail", url: "https://mail.google.com" },
+  { id: "s4", name: "GitHub", url: "https://github.com" },
+  { id: "s5", name: "LinkedIn", url: "https://www.linkedin.com" },
+  { id: "s6", name: "WhatsApp Web", url: "https://web.whatsapp.com" },
+  { id: "s7", name: "Instagram", url: "https://www.instagram.com" },
+  { id: "s8", name: "Bit01 Tecnologia", url: "https://bit01tec.wordpress.com" },
+];
+
+export const DEFAULT_TOOLS: QuickTool[] = [
+  { id: "t1", name: "Speed Test", url: "https://fast.com" },
+  { id: "t2", name: "VirusTotal", url: "https://www.virustotal.com" },
+  { id: "t3", name: "Have I Been Pwned", url: "https://haveibeenpwned.com" },
+  { id: "t4", name: "ChatGPT", url: "https://chat.openai.com" },
+  { id: "t5", name: "Stack Overflow", url: "https://stackoverflow.com" },
+  { id: "t6", name: "MDN", url: "https://developer.mozilla.org" },
+  { id: "t7", name: "Cloudflare", url: "https://dash.cloudflare.com" },
+];
+
+export const MAX_SHORTCUTS = 12;
+
+interface Store {
+  settings: Settings;
+  update: (patch: Partial<Settings>) => void;
+  updateBackground: (patch: Partial<Settings["background"]>) => void;
+  shortcuts: Shortcut[];
+  setShortcuts: (next: Shortcut[] | ((prev: Shortcut[]) => Shortcut[])) => void;
+  tools: QuickTool[];
+  setTools: (next: QuickTool[] | ((prev: QuickTool[]) => QuickTool[])) => void;
+  notes: string;
+  setNotes: (next: string) => void;
+  hydrated: boolean;
+}
+
+const StoreContext = createContext<Store | null>(null);
+
+export function SettingsProvider({ children }: { children: ReactNode }) {
+  const s = useLocalStorage<Settings>("bit01tec.settings", DEFAULT_SETTINGS);
+  const sc = useLocalStorage<Shortcut[]>("bit01tec.shortcuts", DEFAULT_SHORTCUTS);
+  const tl = useLocalStorage<QuickTool[]>("bit01tec.tools", DEFAULT_TOOLS);
+  const nt = useLocalStorage<string>("bit01tec.notes", "Verificar backup do notebook\nPublicar matéria às 18h");
+
+  const update = useCallback(
+    (patch: Partial<Settings>) => s.setValue((prev) => ({ ...prev, ...patch })),
+    [s],
+  );
+  const updateBackground = useCallback(
+    (patch: Partial<Settings["background"]>) =>
+      s.setValue((prev) => ({ ...prev, background: { ...prev.background, ...patch } })),
+    [s],
+  );
+
+  // Theme + accent applied to the document root.
+  useEffect(() => {
+    const root = document.documentElement;
+    const apply = () => {
+      const dark =
+        s.value.theme === "dark" ||
+        (s.value.theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+      root.classList.toggle("dark", dark);
+    };
+    apply();
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, [s.value.theme]);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.style.setProperty("--accent-color", s.value.accent);
+    root.style.setProperty("--card-alpha", String(s.value.cardOpacity / 100));
+  }, [s.value.accent, s.value.cardOpacity]);
+
+  const value = useMemo<Store>(
+    () => ({
+      settings: s.value,
+      update,
+      updateBackground,
+      shortcuts: sc.value,
+      setShortcuts: sc.setValue,
+      tools: tl.value,
+      setTools: tl.setValue,
+      notes: nt.value,
+      setNotes: (next: string) => nt.setValue(next),
+      hydrated: s.hydrated && sc.hydrated,
+    }),
+    [s.value, s.hydrated, sc.value, sc.hydrated, sc.setValue, tl.value, tl.setValue, nt, update, updateBackground],
+  );
+
+  return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
+}
+
+export function useStore() {
+  const ctx = useContext(StoreContext);
+  if (!ctx) throw new Error("useStore must be used inside SettingsProvider");
+  return ctx;
+}
