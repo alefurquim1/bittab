@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nova guia</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #0b1020;
+        color: #e8ecf5;
+        font-family: ui-sans-serif, system-ui, sans-serif;
+      }
+      #frame {
+        border: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      #msg {
+        display: none;
+        height: 100%;
+        place-content: center;
+        text-align: center;
+        padding: 24px;
+        line-height: 1.6;
+      }
+      #msg.show {
+        display: grid;
+      }
+      a {
+        color: #6fe3ff;
+      }
+    </style>
+  </head>
+  <body>
+    <iframe id="frame" title="BitTab" referrerpolicy="no-referrer"></iframe>
+    <div id="msg">
+      <div>
+        <h1>BitTab</h1>
+        <p>Não foi possível abrir a página. Verifique o endereço nas opções da extensão.</p>
+        <p><a id="opts" href="options.html">Abrir opções</a></p>
+      </div>
+    </div>
+    <script src="newtab.js"></script>
+  </body>
+</html>
