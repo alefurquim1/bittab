@@ -55,7 +55,7 @@ export function ExtensionCard() {
         </p>
       </div>
 
-      <Button type="button" onClick={download} disabled={busy} className="w-full">
+      <Button type="button" onClick={() => void download()} disabled={busy} className="w-full">
         <Download className="size-4" aria-hidden />
         {busy ? "Preparando…" : "Baixar extensão"}
       </Button>
