@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, type ReactNode } from "react";
 import { useLocalStorage } from "./useLocalStorage";
-import type { PomodoroState, QuickTool, Settings, Shortcut, Task } from "@/types";
+import type { PomodoroState, Settings, Shortcut, Task } from "@/types";
 
 /** Verde neon fixo do tema hacker/cyberpunk. */
 export const HACKER_ACCENT = "oklch(0.86 0.24 145)";
@@ -30,7 +30,7 @@ export const DEFAULT_SETTINGS: Settings = {
   accent: "oklch(0.78 0.13 205)",
   cardOpacity: 55,
   searchEngine: "google",
-  widgets: { weather: true, notes: true, tools: true, shortcuts: true, tasks: true, pomodoro: true },
+  widgets: { weather: true, notes: true, links: true, shortcuts: true, tasks: true, pomodoro: true },
   weatherCity: "São Paulo",
   weatherApiKey: "",
   background: {
@@ -57,16 +57,6 @@ export const DEFAULT_SHORTCUTS: Shortcut[] = [
   { id: "s8", name: "BitTab", url: "https://bit01tec.wordpress.com" },
 ];
 
-export const DEFAULT_TOOLS: QuickTool[] = [
-  { id: "t1", name: "Speed Test", url: "https://fast.com" },
-  { id: "t2", name: "VirusTotal", url: "https://www.virustotal.com" },
-  { id: "t3", name: "Have I Been Pwned", url: "https://haveibeenpwned.com" },
-  { id: "t4", name: "ChatGPT", url: "https://chat.openai.com" },
-  { id: "t5", name: "Stack Overflow", url: "https://stackoverflow.com" },
-  { id: "t6", name: "MDN", url: "https://developer.mozilla.org" },
-  { id: "t7", name: "Cloudflare", url: "https://dash.cloudflare.com" },
-];
-
 export const DEFAULT_TASKS: Task[] = [
   { id: "k1", title: "Revisar chamados do dia", done: false, createdAt: 0 },
   { id: "k2", title: "Atualizar antivírus dos clientes", done: false, createdAt: 0 },
@@ -88,8 +78,6 @@ interface Store {
   updateBackground: (patch: Partial<Settings["background"]>) => void;
   shortcuts: Shortcut[];
   setShortcuts: (next: Shortcut[] | ((prev: Shortcut[]) => Shortcut[])) => void;
-  tools: QuickTool[];
-  setTools: (next: QuickTool[] | ((prev: QuickTool[]) => QuickTool[])) => void;
   notes: string;
   setNotes: (next: string) => void;
   tasks: Task[];
@@ -104,7 +92,6 @@ const StoreContext = createContext<Store | null>(null);
 export function SettingsProvider({ children }: { children: ReactNode }) {
   const s = useLocalStorage<Settings>("bit01tec.settings", DEFAULT_SETTINGS);
   const sc = useLocalStorage<Shortcut[]>("bit01tec.shortcuts", DEFAULT_SHORTCUTS);
-  const tl = useLocalStorage<QuickTool[]>("bit01tec.tools", DEFAULT_TOOLS);
   const tk = useLocalStorage<Task[]>("bit01tec.tasks", DEFAULT_TASKS);
   const pm = useLocalStorage<PomodoroState>("bit01tec.pomodoro", DEFAULT_POMODORO);
   const nt = useLocalStorage<string>("bit01tec.notes", "Verificar backup do notebook\nPublicar matéria às 18h");
@@ -146,13 +133,16 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo<Store>(
     () => ({
-      settings: s.value,
+      settings: {
+        ...DEFAULT_SETTINGS,
+        ...s.value,
+        widgets: { ...DEFAULT_SETTINGS.widgets, ...s.value.widgets },
+        background: { ...DEFAULT_SETTINGS.background, ...s.value.background },
+      },
       update,
       updateBackground,
       shortcuts: sc.value,
       setShortcuts: sc.setValue,
-      tools: tl.value,
-      setTools: tl.setValue,
       notes: nt.value,
       setNotes: (next: string) => nt.setValue(next),
       tasks: tk.value,
@@ -161,7 +151,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       setPomodoro: pm.setValue,
       hydrated: s.hydrated && sc.hydrated,
     }),
-    [s.value, s.hydrated, sc.value, sc.hydrated, sc.setValue, tl.value, tl.setValue, nt, tk.value, tk.setValue, pm.value, pm.setValue, update, updateBackground],
+    [s.value, s.hydrated, sc.value, sc.hydrated, sc.setValue, nt, tk.value, tk.setValue, pm.value, pm.setValue, update, updateBackground],
   );
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
