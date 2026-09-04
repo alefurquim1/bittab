@@ -24,14 +24,10 @@ export const SearchBar = forwardRef<HTMLInputElement>(function SearchBar(_props,
     // a exibição incorporada — abrimos fora do quadro.
     const inFrame = typeof window !== "undefined" && window.self !== window.top;
     if (inFrame) {
-      const opened = window.open(target, "_blank", "noopener,noreferrer");
-      if (!opened && window.top) {
-        try {
-          window.top.location.assign(target);
-        } catch {
-          window.location.assign(target);
-        }
-      }
+      // Com `noopener`, o Firefox pode retornar `null` mesmo quando abriu a
+      // nova guia. Não usamos esse retorno como sinal de bloqueio, pois isso
+      // redirecionava o iframe do BitTab e exibia o erro de incorporação.
+      window.open(target, "_blank", "noopener,noreferrer");
       return;
     }
     window.location.assign(target);
