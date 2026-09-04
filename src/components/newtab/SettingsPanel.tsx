@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ExtensionCard } from "@/components/newtab/ExtensionCard";
 import { ACCENTS, useStore, WALLPAPERS } from "@/hooks/useSettings";
 import { SEARCH_ENGINES } from "@/services/searchService";
 import { clearBackgroundImage, saveBackgroundImage } from "@/services/imageStore";
@@ -105,6 +106,7 @@ export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
             <p className="text-xs text-muted-foreground">
               O clima é obtido em tempo real, sem necessidade de cadastro ou chave.
             </p>
+            <ExtensionCard />
           </TabsContent>
 
           {/* APARÊNCIA */}
