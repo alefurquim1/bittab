@@ -81,7 +81,8 @@ function NewTab() {
 
   const widgets = settings.widgets;
   const anyWidget =
-    widgets.weather || widgets.notes || widgets.tasks || widgets.pomodoro;
+    widgets.weather || widgets.notes || widgets.tasks || widgets.pomodoro || widgets.currency;
+
 
   return (
     <div className="relative flex min-h-screen flex-col">
