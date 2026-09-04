@@ -36,6 +36,7 @@ const WIDGET_LABELS: Array<{ key: keyof WidgetToggles; label: string }> = [
   { key: "shortcuts", label: "Atalhos" },
   { key: "tasks", label: "Tarefas" },
   { key: "pomodoro", label: "Pomodoro" },
+  { key: "currency", label: "Cotação de moedas" },
 ];
 
 export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
