@@ -1,9 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { LINK_CATEGORIES } from "@/data/linkHub";
 
+const STORAGE_KEY = "bittab:linkhub:collapsed";
+
 export default function LinkHubWidget() {
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === "object") setCollapsed(parsed as Record<string, boolean>);
+      }
+    } catch {
+      /* ignora dados inválidos */
+    }
+    setLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (!loaded) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(collapsed));
+    } catch {
+      /* armazenamento indisponível */
+    }
+  }, [collapsed, loaded]);
+
 
   return (
     <section aria-label="Plataformas por categoria" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
