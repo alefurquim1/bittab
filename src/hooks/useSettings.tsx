@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, type ReactNode } from "react";
 import { useLocalStorage } from "./useLocalStorage";
-import type { QuickTool, Settings, Shortcut } from "@/types";
+import type { PomodoroState, QuickTool, Settings, Shortcut, Task } from "@/types";
 
 export const ACCENTS = [
   { id: "cyan", label: "Ciano", value: "oklch(0.78 0.13 205)" },
@@ -27,7 +27,7 @@ export const DEFAULT_SETTINGS: Settings = {
   accent: "oklch(0.78 0.13 205)",
   cardOpacity: 55,
   searchEngine: "google",
-  widgets: { weather: true, notes: true, tools: true, shortcuts: true },
+  widgets: { weather: true, notes: true, tools: true, shortcuts: true, tasks: true, pomodoro: true },
   weatherCity: "São Paulo",
   weatherApiKey: "",
   background: {
@@ -64,6 +64,19 @@ export const DEFAULT_TOOLS: QuickTool[] = [
   { id: "t7", name: "Cloudflare", url: "https://dash.cloudflare.com" },
 ];
 
+export const DEFAULT_TASKS: Task[] = [
+  { id: "k1", title: "Revisar chamados do dia", done: false, createdAt: 0 },
+  { id: "k2", title: "Atualizar antivírus dos clientes", done: false, createdAt: 0 },
+  { id: "k3", title: "Backup do servidor", done: true, createdAt: 0 },
+];
+
+export const DEFAULT_POMODORO: PomodoroState = {
+  phase: "focus",
+  running: false,
+  remaining: 25 * 60,
+  completed: 0,
+};
+
 export const MAX_SHORTCUTS = 12;
 
 interface Store {
@@ -76,6 +89,10 @@ interface Store {
   setTools: (next: QuickTool[] | ((prev: QuickTool[]) => QuickTool[])) => void;
   notes: string;
   setNotes: (next: string) => void;
+  tasks: Task[];
+  setTasks: (next: Task[] | ((prev: Task[]) => Task[])) => void;
+  pomodoro: PomodoroState;
+  setPomodoro: (next: PomodoroState | ((prev: PomodoroState) => PomodoroState)) => void;
   hydrated: boolean;
 }
 
@@ -85,6 +102,8 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   const s = useLocalStorage<Settings>("bit01tec.settings", DEFAULT_SETTINGS);
   const sc = useLocalStorage<Shortcut[]>("bit01tec.shortcuts", DEFAULT_SHORTCUTS);
   const tl = useLocalStorage<QuickTool[]>("bit01tec.tools", DEFAULT_TOOLS);
+  const tk = useLocalStorage<Task[]>("bit01tec.tasks", DEFAULT_TASKS);
+  const pm = useLocalStorage<PomodoroState>("bit01tec.pomodoro", DEFAULT_POMODORO);
   const nt = useLocalStorage<string>("bit01tec.notes", "Verificar backup do notebook\nPublicar matéria às 18h");
 
   const update = useCallback(
@@ -129,9 +148,13 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       setTools: tl.setValue,
       notes: nt.value,
       setNotes: (next: string) => nt.setValue(next),
+      tasks: tk.value,
+      setTasks: tk.setValue,
+      pomodoro: pm.value,
+      setPomodoro: pm.setValue,
       hydrated: s.hydrated && sc.hydrated,
     }),
-    [s.value, s.hydrated, sc.value, sc.hydrated, sc.setValue, tl.value, tl.setValue, nt, update, updateBackground],
+    [s.value, s.hydrated, sc.value, sc.hydrated, sc.setValue, tl.value, tl.setValue, nt, tk.value, tk.setValue, pm.value, pm.setValue, update, updateBackground],
   );
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;

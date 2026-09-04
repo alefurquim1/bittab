@@ -39,6 +39,8 @@ export interface WidgetToggles {
   notes: boolean;
   tools: boolean;
   shortcuts: boolean;
+  tasks: boolean;
+  pomodoro: boolean;
 }
 
 export interface Settings {
@@ -63,4 +65,22 @@ export interface Weather {
   humidity: number;
   icon: "sun" | "cloud" | "cloud-sun" | "rain" | "snow" | "storm" | "fog";
   demo: boolean;
+}
+
+export interface Task {
+  id: string;
+  title: string;
+  done: boolean;
+  createdAt: number;
+}
+
+export type PomodoroPhase = "focus" | "break" | "long";
+
+export interface PomodoroState {
+  phase: PomodoroPhase;
+  running: boolean;
+  /** seconds left in the current phase */
+  remaining: number;
+  /** completed focus cycles */
+  completed: number;
 }

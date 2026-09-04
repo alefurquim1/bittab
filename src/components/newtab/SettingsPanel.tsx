@@ -32,6 +32,8 @@ const WIDGET_LABELS: Array<{ key: keyof WidgetToggles; label: string }> = [
   { key: "notes", label: "Notas rápidas" },
   { key: "tools", label: "Ferramentas" },
   { key: "shortcuts", label: "Atalhos" },
+  { key: "tasks", label: "Tarefas" },
+  { key: "pomodoro", label: "Pomodoro" },
 ];
 
 export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
