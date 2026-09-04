@@ -7,12 +7,13 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useStore } from "@/hooks/useSettings";
+import { useI18n, useStore } from "@/hooks/useSettings";
 import { buildSearchTarget, SEARCH_ENGINES } from "@/services/searchService";
 import type { SearchEngineId } from "@/types";
 
 export const SearchBar = forwardRef<HTMLInputElement>(function SearchBar(_props, ref) {
   const { settings, update } = useStore();
+  const { t } = useI18n();
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -39,7 +40,7 @@ export const SearchBar = forwardRef<HTMLInputElement>(function SearchBar(_props,
       <div className="glass flex items-center gap-2 rounded-2xl px-3 py-2 focus-within:accent-glow sm:px-4 sm:py-2.5">
         <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden />
         <label className="sr-only" htmlFor="newtab-search">
-          Pesquisar na web ou digitar um endereço
+          {t("search.label")}
         </label>
         <input
           id="newtab-search"
@@ -48,13 +49,13 @@ export const SearchBar = forwardRef<HTMLInputElement>(function SearchBar(_props,
           type="text"
           autoComplete="off"
           spellCheck={false}
-          placeholder="Pesquisar na web ou digitar um endereço..."
+          placeholder={t("search.placeholder")}
           className="min-w-0 flex-1 bg-transparent py-1.5 text-sm outline-none placeholder:text-muted-foreground sm:text-base"
         />
         <DropdownMenu>
           <DropdownMenuTrigger
             type="button"
-            aria-label="Escolher mecanismo de pesquisa"
+            aria-label={t("search.engine")}
             className="flex shrink-0 items-center gap-1 rounded-xl bg-secondary/70 px-2.5 py-1.5 text-xs font-medium text-secondary-foreground transition-colors hover:bg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           >
             <span className="hidden sm:inline">{SEARCH_ENGINES[settings.searchEngine].name}</span>
@@ -75,9 +76,7 @@ export const SearchBar = forwardRef<HTMLInputElement>(function SearchBar(_props,
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <p className="mt-2 text-center text-[0.68rem] text-muted-foreground">
-        Comece a digitar a qualquer momento • CTRL + K para focar
-      </p>
+      <p className="mt-2 text-center text-[0.68rem] text-muted-foreground">{t("search.hint")}</p>
     </form>
   );
 });
