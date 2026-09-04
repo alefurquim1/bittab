@@ -18,8 +18,25 @@ export const SearchBar = forwardRef<HTMLInputElement>(function SearchBar(_props,
     e.preventDefault();
     const input = new FormData(e.currentTarget).get("q");
     const target = buildSearchTarget(String(input ?? ""), settings.searchEngine);
-    if (target) window.location.assign(target);
+    if (!target) return;
+
+    // Dentro de um iframe (pré-visualização/extensão) os buscadores bloqueiam
+    // a exibição incorporada — abrimos fora do quadro.
+    const inFrame = typeof window !== "undefined" && window.self !== window.top;
+    if (inFrame) {
+      const opened = window.open(target, "_blank", "noopener,noreferrer");
+      if (!opened && window.top) {
+        try {
+          window.top.location.assign(target);
+        } catch {
+          window.location.assign(target);
+        }
+      }
+      return;
+    }
+    window.location.assign(target);
   }
+
 
   return (
     <form onSubmit={onSubmit} role="search" className="rise-in w-full">
