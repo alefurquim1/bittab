@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { Toaster } from "@/components/ui/sonner";
-import { SettingsProvider, useStore } from "@/hooks/useSettings";
+import { SettingsProvider, useI18n, useStore } from "@/hooks/useSettings";
 import { BackgroundManager } from "@/components/newtab/BackgroundManager";
 import { Header } from "@/components/newtab/Header";
 import { Clock } from "@/components/newtab/Clock";
@@ -54,6 +54,7 @@ function WidgetFallback() {
 
 function NewTab() {
   const { settings } = useStore();
+  const { t } = useI18n();
   const [panelOpen, setPanelOpen] = useState(false);
   const [tab, setTab] = useState("geral");
   const searchRef = useRef<HTMLInputElement>(null);
@@ -99,7 +100,7 @@ function NewTab() {
 
         {anyWidget && (
           <section
-            aria-label="Widgets"
+            aria-label={t("settings.tab.widgets")}
             className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
           >
             {widgets.weather && (
@@ -138,9 +139,9 @@ function NewTab() {
       </main>
 
       <footer className="px-4 py-5 text-center text-[0.66rem] text-muted-foreground sm:px-8">
-        BitTab • Sua nova guia. Do seu jeito.
+        {t("footer.tagline")}
         <span className="mx-1.5 opacity-40">|</span>
-        Tecnologia, Segurança &amp; Produtividade
+        {t("footer.topics")}
         <span className="mx-1.5 opacity-40">|</span>
         <a
           href="https://www.bit01tec.com.br"
