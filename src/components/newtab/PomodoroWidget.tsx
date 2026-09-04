@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useRef } from "react";
 import { Coffee, Pause, Play, RotateCcw, Timer } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useStore } from "@/hooks/useSettings";
+import { useI18n, useStore } from "@/hooks/useSettings";
 import type { PomodoroPhase } from "@/types";
 
 const PHASES = {
-  focus: { label: "Foco", minutes: 25 },
-  break: { label: "Pausa", minutes: 5 },
-  long: { label: "Pausa longa", minutes: 15 },
+  focus: { key: "pomodoro.focus", minutes: 25 },
+  break: { key: "pomodoro.break", minutes: 5 },
+  long: { key: "pomodoro.long", minutes: 15 },
 } as const;
 
 function pad(n: number) {
@@ -16,6 +16,7 @@ function pad(n: number) {
 
 export default function PomodoroWidget() {
   const { pomodoro, setPomodoro } = useStore();
+  const { t } = useI18n();
   const { phase, running, remaining, completed } = pomodoro;
   const total = PHASES[phase].minutes * 60;
 
@@ -65,12 +66,17 @@ export default function PomodoroWidget() {
   }, [remaining, running, phase, completed, setPomodoro, switchPhase]);
 
   const progress = total === 0 ? 0 : 1 - remaining / total;
+  const phaseLabel = t(PHASES[phase].key);
 
   return (
     <article className="glass rise-in rounded-2xl p-4">
       <div className="flex items-center justify-between gap-2">
-        <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">Pomodoro</h3>
-        <span className="text-[0.66rem] text-muted-foreground">{completed} ciclo{completed === 1 ? "" : "s"}</span>
+        <h3 className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+          {t("pomodoro.title")}
+        </h3>
+        <span className="text-[0.66rem] text-muted-foreground">
+          {t(completed === 1 ? "pomodoro.cycle" : "pomodoro.cyclePlural", { n: completed })}
+        </span>
       </div>
 
       <div className="mt-3 flex items-center gap-3">
@@ -80,7 +86,11 @@ export default function PomodoroWidget() {
             background: `conic-gradient(var(--accent-color) ${progress * 360}deg, color-mix(in oklab, var(--accent-color) 14%, transparent) 0deg)`,
           }}
           role="img"
-          aria-label={`${PHASES[phase].label}: ${pad(Math.floor(remaining / 60))} minutos e ${pad(remaining % 60)} segundos restantes`}
+          aria-label={t("pomodoro.remaining", {
+            phase: phaseLabel,
+            m: pad(Math.floor(remaining / 60)),
+            s: pad(remaining % 60),
+          })}
         >
           <div className="grid size-[3.15rem] place-items-center rounded-full bg-background/80">
             {phase === "focus" ? (
@@ -94,7 +104,7 @@ export default function PomodoroWidget() {
           <p className="clock-digits text-2xl font-semibold tabular-nums">
             {pad(Math.floor(remaining / 60))}:{pad(remaining % 60)}
           </p>
-          <p className="text-xs text-muted-foreground">{PHASES[phase].label}</p>
+          <p className="text-xs text-muted-foreground">{phaseLabel}</p>
         </div>
       </div>
 
@@ -103,16 +113,16 @@ export default function PomodoroWidget() {
           size="sm"
           className="flex-1"
           onClick={() => setPomodoro((prev) => ({ ...prev, running: !prev.running }))}
-          aria-label={running ? "Pausar Pomodoro" : "Iniciar Pomodoro"}
+          aria-label={running ? t("pomodoro.pauseAria") : t("pomodoro.startAria")}
         >
           {running ? <Pause className="size-3.5" aria-hidden /> : <Play className="size-3.5" aria-hidden />}
-          {running ? "Pausar" : "Iniciar"}
+          {running ? t("pomodoro.pause") : t("pomodoro.start")}
         </Button>
         <Button
           variant="ghost"
           size="icon"
           className="size-8"
-          aria-label="Reiniciar tempo"
+          aria-label={t("pomodoro.reset")}
           onClick={() => switchPhase(phase)}
         >
           <RotateCcw className="size-3.5" aria-hidden />
@@ -128,7 +138,7 @@ export default function PomodoroWidget() {
             className="h-7 flex-1 px-1 text-[0.66rem]"
             onClick={() => switchPhase(p)}
           >
-            {PHASES[p].label}
+            {t(PHASES[p].key)}
           </Button>
         ))}
       </div>
