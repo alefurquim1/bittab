@@ -19,7 +19,7 @@ const CurrencyWidget = lazy(() => import("@/components/newtab/CurrencyWidget"));
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "BitTab • Nova Guia — Relógio, Busca e Atalhos" },
+      { title: "BitTab • Sua nova guia. Do seu jeito." },
       {
         name: "description",
         content:
@@ -31,7 +31,10 @@ export const Route = createFileRoute("/")({
         content:
           "Página inicial focada em produtividade: relógio, pesquisa, atalhos, clima, notas e personalização completa.",
       },
+      { property: "og:url", content: "https://bittab.lovable.app/" },
+      { property: "og:type", content: "website" },
     ],
+    links: [{ rel: "canonical", href: "https://bittab.lovable.app/" }],
   }),
   component: NewTabPage,
 });

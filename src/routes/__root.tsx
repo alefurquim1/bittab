@@ -77,14 +77,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "BitTab • Nova Guia" },
+      { title: "BitTab • Sua nova guia. Do seu jeito." },
       { name: "description", content: "Nova guia rápida com relógio, busca, atalhos e widgets." },
       { name: "author", content: "BitTab" },
-      { property: "og:title", content: "BitTab • Nova Guia" },
+      { property: "og:title", content: "BitTab • Sua nova guia. Do seu jeito." },
       { property: "og:description", content: "Nova guia rápida com relógio, busca, atalhos e widgets." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:site", content: "@bit01tec" },
     ],
     links: [
       {
