@@ -107,6 +107,7 @@ export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
               O clima é obtido em tempo real, sem necessidade de cadastro ou chave.
             </p>
             <ExtensionCard />
+            <HomepageCard />
           </TabsContent>
 
           {/* APARÊNCIA */}
