@@ -1,7 +1,7 @@
 /* global chrome, browser */
 const api = typeof browser !== "undefined" ? browser : chrome;
 
-const DEFAULT_URL = "https://project--c8b1d36e-a356-4ee0-8000-7c6e1721d5c5.lovable.app/";
+const DEFAULT_URL = "https://bittab.lovable.app/";
 
 const input = document.getElementById("url");
 const status = document.getElementById("status");
