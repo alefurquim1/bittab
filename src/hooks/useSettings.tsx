@@ -47,14 +47,14 @@ export const DEFAULT_SETTINGS: Settings = {
 };
 
 export const DEFAULT_SHORTCUTS: Shortcut[] = [
-  { id: "s1", name: "Google", url: "https://www.google.com" },
-  { id: "s2", name: "YouTube", url: "https://www.youtube.com" },
+  { id: "s1", name: "Instagram Bit01Tec", url: "https://instagram.com/bit01tec" },
+  { id: "s2", name: "Bit01Tec", url: "https://www.bit01tec.com.br" },
   { id: "s3", name: "Gmail", url: "https://mail.google.com" },
   { id: "s4", name: "GitHub", url: "https://github.com" },
   { id: "s5", name: "LinkedIn", url: "https://www.linkedin.com" },
   { id: "s6", name: "WhatsApp Web", url: "https://web.whatsapp.com" },
-  { id: "s7", name: "Instagram", url: "https://www.instagram.com" },
-  { id: "s8", name: "BitTab", url: "https://bit01tec.wordpress.com" },
+  { id: "s7", name: "Google", url: "https://www.google.com" },
+  { id: "s8", name: "YouTube", url: "https://www.youtube.com" },
 ];
 
 export const DEFAULT_TASKS: Task[] = [
