@@ -15,6 +15,7 @@ const LinkHubWidget = lazy(() => import("@/components/newtab/LinkHubWidget"));
 const TasksWidget = lazy(() => import("@/components/newtab/TasksWidget"));
 const PomodoroWidget = lazy(() => import("@/components/newtab/PomodoroWidget"));
 const CurrencyWidget = lazy(() => import("@/components/newtab/CurrencyWidget"));
+const SpeedTestWidget = lazy(() => import("@/components/newtab/SpeedTestWidget"));
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -85,7 +86,7 @@ function NewTab() {
 
   const widgets = settings.widgets;
   const anyWidget =
-    widgets.weather || widgets.notes || widgets.tasks || widgets.pomodoro || widgets.currency;
+    widgets.weather || widgets.notes || widgets.tasks || widgets.pomodoro || widgets.currency || widgets.speed;
 
 
   return (
@@ -126,6 +127,11 @@ function NewTab() {
             {widgets.currency && (
               <Suspense fallback={<WidgetFallback />}>
                 <CurrencyWidget />
+              </Suspense>
+            )}
+            {widgets.speed && (
+              <Suspense fallback={<WidgetFallback />}>
+                <SpeedTestWidget />
               </Suspense>
             )}
           </section>

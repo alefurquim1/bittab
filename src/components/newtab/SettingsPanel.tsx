@@ -38,6 +38,7 @@ const WIDGET_KEYS: Array<keyof WidgetToggles> = [
   "tasks",
   "pomodoro",
   "currency",
+  "speed",
 ];
 
 export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {

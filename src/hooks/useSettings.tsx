@@ -32,7 +32,7 @@ export const DEFAULT_SETTINGS: Settings = {
   accent: "oklch(0.78 0.13 205)",
   cardOpacity: 55,
   searchEngine: "google",
-  widgets: { weather: true, notes: true, links: true, shortcuts: true, tasks: true, pomodoro: true, currency: true },
+  widgets: { weather: true, notes: true, links: true, shortcuts: true, tasks: true, pomodoro: true, currency: true, speed: true },
   weatherCity: "São Paulo",
   weatherApiKey: "",
   background: {
