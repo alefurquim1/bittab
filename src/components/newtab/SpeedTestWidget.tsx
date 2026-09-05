@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import { Activity, ArrowDownToLine, ArrowUpFromLine, Gauge, Play, Timer } from "lucide-react";
+import { Activity, ArrowDownToLine, ArrowUpFromLine, ExternalLink, Gauge, Play, Timer } from "lucide-react";
 import { useI18n } from "@/hooks/useSettings";
 
 type Phase = "idle" | "latency" | "download" | "upload" | "done" | "error";
