@@ -180,6 +180,7 @@ const pt: Dict = {
   "speed.jitter": "Variação",
   "speed.start": "Iniciar teste",
   "speed.again": "Testar novamente",
+  "speed.full": "Teste completo",
   "speed.phase.latency": "Medindo latência...",
   "speed.phase.download": "Medindo download...",
   "speed.phase.upload": "Medindo upload...",
