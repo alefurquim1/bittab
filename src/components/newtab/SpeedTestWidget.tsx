@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import { Activity, ArrowDownToLine, ArrowUpFromLine, Gauge, Play, Timer } from "lucide-react";
+import { Activity, ArrowDownToLine, ArrowUpFromLine, ExternalLink, Gauge, Play, Timer } from "lucide-react";
 import { useI18n } from "@/hooks/useSettings";
 
 type Phase = "idle" | "latency" | "download" | "upload" | "done" | "error";
@@ -136,6 +136,16 @@ export default function SpeedTestWidget() {
         <Play className={`size-3.5 ${busy ? "animate-pulse" : ""}`} aria-hidden />
         {busy ? t(`speed.phase.${phase}`) : phase === "done" ? t("speed.again") : t("speed.start")}
       </button>
+
+      <a
+        href="https://speed.cloudflare.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl border border-glass-border px-3 py-2 text-[0.65rem] font-medium text-muted-foreground transition hover:text-accent-color"
+      >
+        <ExternalLink className="size-3.5" aria-hidden />
+        {t("speed.full")}
+      </a>
 
       {phase === "error" && (
         <p className="mt-2 text-[0.66rem] text-muted-foreground">{t("speed.error")}</p>
