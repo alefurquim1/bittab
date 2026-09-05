@@ -57,6 +57,7 @@ export default function SpeedTestWidget() {
   );
 
   const run = useCallback(async () => {
+    console.log("SPEEDTEST run clicked");
     if (running.current) return;
     running.current = true;
     setLatency(null);
