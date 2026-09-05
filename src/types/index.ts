@@ -38,6 +38,7 @@ export interface WidgetToggles {
   tasks: boolean;
   pomodoro: boolean;
   currency: boolean;
+  speed: boolean;
 }
 
 export interface Settings {
