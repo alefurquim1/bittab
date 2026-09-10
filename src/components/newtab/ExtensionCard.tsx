@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Download } from "lucide-react";
+import { Download, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/hooks/useSettings";
 
 const ZIP_PATH = "/bittab-extensao.zip";
+const FIREFOX_AMO_URL = "https://addons.mozilla.org/pt-BR/firefox/addon/bittab/";
 
 /**
  * Download + install instructions for the browser extension that turns
@@ -40,10 +41,23 @@ export function ExtensionCard() {
         <p className="text-xs text-muted-foreground">{t("ext.desc")}</p>
       </div>
 
-      <Button type="button" onClick={download} disabled={busy} className="w-full">
-        <Download className="size-4" aria-hidden />
-        {busy ? t("ext.preparing") : t("ext.download")}
-      </Button>
+      <div className="flex flex-col gap-2">
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={() => window.open(FIREFOX_AMO_URL, "_blank", "noopener,noreferrer")}
+          className="w-full"
+          aria-label={t("ext.firefoxAria")}
+        >
+          <ExternalLink className="size-4" aria-hidden />
+          {t("ext.firefox")}
+        </Button>
+
+        <Button type="button" onClick={download} disabled={busy} className="w-full">
+          <Download className="size-4" aria-hidden />
+          {busy ? t("ext.preparing") : t("ext.download")}
+        </Button>
+      </div>
 
       <ol className="list-decimal space-y-1 pl-5 text-xs text-muted-foreground">
         <li>{t("ext.step1")}</li>
