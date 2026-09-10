@@ -1,29 +1,39 @@
-# Welcome to your Lovable project
+# BitTab
 
-This project was built with [Lovable](https://lovable.dev).
+**Sua nova guia. Do seu jeito.**
 
-## Build with Lovable
+BitTab é uma página inicial / Nova Guia personalizada para o navegador, com foco em produtividade, acesso rápido e personalização visual.
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+## Funcionalidades
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- Relógio em tempo real com saudação e data
+- Barra de busca com vários mecanismos
+- Atalhos editáveis (arraste para reordenar)
+- Widgets: clima real, notas rápidas, tarefas, pomodoro, cotação de moedas, teste de conexão e plataformas por categoria
+- Temas: escuro, claro, sistema e hacker/cyberpunk
+- Plano de fundo personalizável (wallpapers, gradiente, cor sólida ou imagem própria)
+- Interface em português, inglês e espanhol
+- Tudo salvo localmente no navegador
 
-## Development
+## Extensão para navegador
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+- **Firefox**: instale diretamente pelo [Firefox Add-ons](https://addons.mozilla.org/pt-BR/firefox/addon/bittab/).
+- **Chrome, Edge e Brave**: baixe o arquivo `bittab-extensao.zip` em **Personalizar → Geral**, descompacte e carregue sem compactação em `chrome://extensions`.
+
+## Página inicial
+
+Para usar o BitTab como página inicial, copie o endereço em **Personalizar → Geral → Definir como página inicial** e cole nas configurações do navegador.
+
+## Desenvolvimento
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+bun install
+bun run dev
 ```
 
-## Built with
+## Tecnologias
 
 - TanStack Start
+- React 19
 - TypeScript
-- React
 - Tailwind CSS
