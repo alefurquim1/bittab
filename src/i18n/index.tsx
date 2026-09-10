@@ -187,8 +187,10 @@ const pt: Dict = {
   "speed.error": "Não foi possível concluir o teste. Verifique sua conexão e tente de novo.",
 
   "ext.title": "Usar como Nova Guia do navegador",
-  "ext.desc": "Baixe a extensão e o BitTab abre sozinho a cada nova guia no Chrome, Edge, Brave ou Firefox.",
-  "ext.download": "Baixar extensão",
+  "ext.desc": "No Firefox, instale direto pela loja oficial. No Chrome, Edge ou Brave, baixe o arquivo e carregue manualmente.",
+  "ext.download": "Baixar extensão (.zip)",
+  "ext.firefox": "Instalar no Firefox",
+  "ext.firefoxAria": "Abrir página oficial no Firefox Add-ons",
   "ext.preparing": "Preparando…",
   "ext.started": "Download iniciado",
   "ext.failed": "Não foi possível baixar",
@@ -196,7 +198,7 @@ const pt: Dict = {
   "ext.step2":
     "No Chrome, Edge ou Brave: abra chrome://extensions, ative o Modo do desenvolvedor e clique em Carregar sem compactação, escolhendo a pasta.",
   "ext.step3":
-    "No Firefox: abra about:debugging → Este Firefox → Carregar temporário e escolha o arquivo manifest.json.",
+    "No Firefox: use o botão acima para instalar pelo Firefox Add-ons (oficial e automático) ou carregue o manifest.json em about:debugging.",
   "ext.step4": "Abra uma nova guia. Para trocar o endereço exibido, use as opções da extensão.",
 
   "home.title": "Definir como página inicial",
@@ -383,15 +385,17 @@ const en: Dict = {
   "speed.error": "Could not finish the test. Check your connection and try again.",
 
   "ext.title": "Use as the browser's New Tab",
-  "ext.desc": "Download the extension and BitTab opens on every new tab in Chrome, Edge, Brave or Firefox.",
-  "ext.download": "Download extension",
+  "ext.desc": "On Firefox, install directly from the official store. On Chrome, Edge or Brave, download the file and load it manually.",
+  "ext.download": "Download extension (.zip)",
+  "ext.firefox": "Install on Firefox",
+  "ext.firefoxAria": "Open the official page on Firefox Add-ons",
   "ext.preparing": "Preparing…",
   "ext.started": "Download started",
   "ext.failed": "Could not download",
   "ext.step1": "Unzip the downloaded file.",
   "ext.step2":
     "In Chrome, Edge or Brave: open chrome://extensions, turn on Developer mode and click Load unpacked, choosing the folder.",
-  "ext.step3": "In Firefox: open about:debugging → This Firefox → Load Temporary Add-on and pick manifest.json.",
+  "ext.step3": "In Firefox: use the button above to install from Firefox Add-ons (official and automatic) or load manifest.json in about:debugging.",
   "ext.step4": "Open a new tab. To change the address shown, use the extension options.",
 
   "home.title": "Set as homepage",
@@ -578,15 +582,17 @@ const es: Dict = {
   "speed.error": "No se pudo completar la prueba. Revisa tu conexión e inténtalo de nuevo.",
 
   "ext.title": "Usar como Nueva Pestaña del navegador",
-  "ext.desc": "Descarga la extensión y BitTab se abre en cada nueva pestaña en Chrome, Edge, Brave o Firefox.",
-  "ext.download": "Descargar extensión",
+  "ext.desc": "En Firefox, instala directamente desde la tienda oficial. En Chrome, Edge o Brave, descarga el archivo y cárgalo manualmente.",
+  "ext.download": "Descargar extensión (.zip)",
+  "ext.firefox": "Instalar en Firefox",
+  "ext.firefoxAria": "Abrir página oficial en Firefox Add-ons",
   "ext.preparing": "Preparando…",
   "ext.started": "Descarga iniciada",
   "ext.failed": "No se pudo descargar",
   "ext.step1": "Descomprime el archivo descargado.",
   "ext.step2":
     "En Chrome, Edge o Brave: abre chrome://extensions, activa el Modo de desarrollador y pulsa Cargar descomprimida, eligiendo la carpeta.",
-  "ext.step3": "En Firefox: abre about:debugging → Este Firefox → Cargar complemento temporal y elige manifest.json.",
+  "ext.step3": "En Firefox: usa el botón de arriba para instalar desde Firefox Add-ons (oficial y automático) o carga manifest.json en about:debugging.",
   "ext.step4": "Abre una nueva pestaña. Para cambiar la dirección mostrada, usa las opciones de la extensión.",
 
   "home.title": "Definir como página de inicio",
