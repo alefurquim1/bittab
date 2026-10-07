@@ -113,8 +113,12 @@ const pt: Dict = {
   "cat.estudos": "Estudos",
   "cat.ferramentas": "Ferramentas",
 
-  "footer.tagline": "BitTab • Sua nova guia. Do seu jeito.",
+"footer.tagline": "BitTab • Sua nova guia. Do seu jeito.",
   "footer.topics": "Tecnologia, Segurança & Produtividade",
+  "footer.privacy": "Política de Privacidade",
+
+  "privacy.title": "Política de Privacidade",
+  "privacy.back": "Voltar ao BitTab",
 
   "settings.title": "Personalizar",
   "settings.desc": "Ajuste sua nova guia. Tudo fica salvo neste navegador.",
@@ -311,8 +315,12 @@ const en: Dict = {
   "cat.estudos": "Learning",
   "cat.ferramentas": "Tools",
 
-  "footer.tagline": "BitTab • Your new tab. Your way.",
+"footer.tagline": "BitTab • Your new tab. Your way.",
   "footer.topics": "Technology, Security & Productivity",
+  "footer.privacy": "Privacy Policy",
+
+  "privacy.title": "Privacy Policy",
+  "privacy.back": "Back to BitTab",
 
   "settings.title": "Customize",
   "settings.desc": "Tune your new tab. Everything is saved in this browser.",
@@ -508,8 +516,12 @@ const es: Dict = {
   "cat.estudos": "Estudios",
   "cat.ferramentas": "Herramientas",
 
-  "footer.tagline": "BitTab • Tu nueva pestaña. A tu manera.",
+"footer.tagline": "BitTab • Tu nueva pestaña. A tu manera.",
   "footer.topics": "Tecnología, Seguridad y Productividad",
+  "footer.privacy": "Política de Privacidad",
+
+  "privacy.title": "Política de Privacidad",
+  "privacy.back": "Volver a BitTab",
 
   "settings.title": "Personalizar",
   "settings.desc": "Ajusta tu nueva pestaña. Todo se guarda en este navegador.",
