@@ -1,5 +1,10 @@
 {
-  "name": "tanstack_start_ts",
+  "name": "bittab",
+  "version": "1.0.1",
+  "description": "BitTab — Sua nova guia. Do seu jeito.",
+  "license": "MIT",
+  "author": "Alexandre Furquim (Bit01Tec)",
+  "homepage": "https://bittab.lovable.app",
   "private": true,
   "sideEffects": false,
   "type": "module",
