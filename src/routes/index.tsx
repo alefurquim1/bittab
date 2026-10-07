@@ -157,6 +157,10 @@ function NewTab() {
         >
           @bit01tec — www.bit01tec.com.br
         </a>
+        <span className="mx-1.5 opacity-40">|</span>
+        <Link to="/privacidade" className="hover:text-accent-color hover:underline">
+          {t("footer.privacy")}
+        </Link>
       </footer>
 
       <SettingsPanel open={panelOpen} tab={tab} onOpenChange={setPanelOpen} onTabChange={setTab} />

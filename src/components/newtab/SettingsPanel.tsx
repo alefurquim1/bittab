@@ -333,6 +333,13 @@ export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
             <p className="text-foreground">{t("settings.privacy1")}</p>
             <p>{t("settings.privacy2")}</p>
             <p>{t("settings.privacy3")}</p>
+            <Link
+              to="/privacidade"
+              className="inline-flex items-center gap-1.5 text-accent-color hover:underline"
+            >
+              <ShieldCheck className="h-4 w-4" aria-hidden />
+              {t("footer.privacy")}
+            </Link>
           </TabsContent>
         </Tabs>
       </SheetContent>
