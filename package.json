@@ -5,6 +5,13 @@
   "license": "MIT",
   "author": "Alexandre Furquim (Bit01Tec)",
   "homepage": "https://bittab.lovable.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alefurquim1/bittab.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alefurquim1/bittab/issues"
+  },
   "private": true,
   "sideEffects": false,
   "type": "module",
