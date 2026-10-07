@@ -37,8 +37,8 @@ function PrivacyPage() {
 }
 
 function PrivacyContent() {
-  const { t } = useI18n();
-  const content = PRIVACY_CONTENT[useI18n().lang];
+  const { t, lang } = useI18n();
+  const content = PRIVACY_CONTENT[lang];
 
   return (
     <div className="min-h-screen bg-background text-foreground">
