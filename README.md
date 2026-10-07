@@ -4,6 +4,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+Repositório: [github.com/alefurquim1/bittab](https://github.com/alefurquim1/bittab)
+
 BitTab é uma página inicial / Nova Guia personalizada para navegadores, com foco em produtividade, acesso rápido e personalização visual.
 
 ## Funcionalidades
