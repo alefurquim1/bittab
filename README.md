@@ -2,7 +2,9 @@
 
 **Sua nova guia. Do seu jeito.**
 
-BitTab é uma página inicial / Nova Guia personalizada para o navegador, com foco em produtividade, acesso rápido e personalização visual.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+BitTab é uma página inicial / Nova Guia personalizada para navegadores, com foco em produtividade, acesso rápido e personalização visual.
 
 ## Funcionalidades
 
@@ -30,6 +32,28 @@ Para usar o BitTab como página inicial, copie o endereço em **Personalizar →
 bun install
 bun run dev
 ```
+
+Outros comandos úteis:
+
+```sh
+bun run build   # gera a versão de produção
+bun run lint    # verifica o código
+bun run format  # organiza o formato do código
+```
+
+## Contribuindo
+
+Correções, melhorias e novos widgets são bem-vindos. Abra uma issue antes de começar uma mudança grande e veja [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Marca
+
+O nome **BitTab**, o logotipo e a identidade visual da **Bit01Tec** (@bit01tec, [www.bit01tec.com.br](https://www.bit01tec.com.br)) **não** estão incluídos nesta licença. Ao copiar ou redistribuir o código, remova ou substitua o nome, o logotipo, os links e demais sinais distintivos — a licença cobre apenas o software.
+
+## Licença
+
+Distribuído sob a licença [MIT](LICENSE). © 2026 Alexandre Furquim (Bit01Tec).
+
+Resumo: você pode usar, estudar, modificar e redistribuir o código, inclusive comercialmente, desde que mantenha o aviso de copyright e esta licença nas cópias. O software é fornecido sem garantias. A marca segue a seção acima.
 
 ## Tecnologias
 
