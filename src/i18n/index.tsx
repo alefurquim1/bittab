@@ -113,8 +113,12 @@ const pt: Dict = {
   "cat.estudos": "Estudos",
   "cat.ferramentas": "Ferramentas",
 
-  "footer.tagline": "BitTab • Sua nova guia. Do seu jeito.",
+"footer.tagline": "BitTab • Sua nova guia. Do seu jeito.",
   "footer.topics": "Tecnologia, Segurança & Produtividade",
+  "footer.privacy": "Política de Privacidade",
+
+  "privacy.title": "Política de Privacidade",
+  "privacy.back": "Voltar ao BitTab",
 
   "settings.title": "Personalizar",
   "settings.desc": "Ajuste sua nova guia. Tudo fica salvo neste navegador.",
