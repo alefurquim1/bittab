@@ -1,6 +1,7 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Check, ShieldCheck, Trash2, Upload } from "lucide-react";
+import { Check, Search, Shuffle, ShieldCheck, Trash2, Upload } from "lucide-react";
+import { fetchWallpaper } from "@/services/wallhaven.functions";
 import { toast } from "sonner";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -47,6 +48,21 @@ export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
   const { t } = useI18n();
   const bg = settings.background;
   const fileRef = useRef<HTMLInputElement>(null);
+  const [wallTerm, setWallTerm] = useState("");
+  const [wallBusy, setWallBusy] = useState(false);
+
+  async function findWallpaper(q: string) {
+    setWallBusy(true);
+    try {
+      const { url } = await fetchWallpaper({ data: { q } });
+      if (!url) toast.error(t("settings.wallNone"));
+      else updateBackground({ kind: "image", imageUrl: url, hasUpload: false });
+    } catch {
+      toast.error(t("settings.wallNone"));
+    } finally {
+      setWallBusy(false);
+    }
+  }
 
   async function onUpload(file: File) {
     if (file.size > 6_000_000) {
@@ -234,6 +250,29 @@ export function SettingsPanel({ open, tab, onOpenChange, onTabChange }: Props) {
 
             {bg.kind === "image" && (
               <div className="space-y-3">
+                <div className="space-y-1.5">
+                  <Label htmlFor="set-wall">{t("settings.wallSearch")}</Label>
+                  <form
+                    className="flex gap-2"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      void findWallpaper(wallTerm);
+                    }}
+                  >
+                    <Input
+                      id="set-wall"
+                      value={wallTerm}
+                      onChange={(e) => setWallTerm(e.target.value)}
+                      placeholder={t("settings.wallPlaceholder")}
+                    />
+                    <Button type="submit" size="sm" variant="secondary" disabled={wallBusy}>
+                      <Search className="size-3.5" aria-hidden /> {t("settings.wallFind")}
+                    </Button>
+                  </form>
+                  <Button size="sm" variant="ghost" disabled={wallBusy} onClick={() => void findWallpaper("")}>
+                    <Shuffle className="size-3.5" aria-hidden /> {t("settings.wallRandom")}
+                  </Button>
+                </div>
                 <div className="space-y-1.5">
                   <Label htmlFor="set-img">{t("settings.imageUrl")}</Label>
                   <Input
