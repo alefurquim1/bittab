@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Keep malware-analysis provider definitions in a browser-safe data module; the widget opens official portals rather than uploading samples or claiming scan verdicts inside BitTab.
+- Use the shared ReorderableGrid with dnd-kit for widget and category arrangement; persist complete ID orders locally so hiding items never loses their positions.
