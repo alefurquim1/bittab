@@ -13,7 +13,7 @@ export type PrivacyContent = {
 };
 
 const pt: PrivacyContent = {
-  updated: "Última atualização: 7 de outubro de 2026",
+  updated: "Última atualização: 29 de outubro de 2026",
   intro: [
     "O BitTab é uma página inicial personalizada que funciona inteiramente no seu navegador. Não criamos contas de usuário, não mantemos banco de dados de pessoas usuárias e não recebemos, armazenamos ou vendemos seus dados pessoais em servidores nossos.",
   ],
@@ -50,6 +50,7 @@ const pt: PrivacyContent = {
         "Teste de conexão (speed.cloudflare.com): as medidas de download, upload e latência são feitas diretamente contra servidores da Cloudflare.",
         "Pesquisa na web: o texto digitado é enviado ao mecanismo escolhido (Google, DuckDuckGo, Bing ou outros), que aplica a própria política de privacidade.",
         "Atalhos e plataformas (LinkHub): ao clicar em um link, você é direcionado ao site de destino, que possui política de privacidade própria.",
+        "Análise de malware: o BitTab apenas abre os cinco portais externos em nova guia, sem receber arquivos ou produzir resultados de análise. Qualquer envio de arquivo, URL ou hash é feito por você no portal escolhido, sujeito à política desse serviço; não envie informações confidenciais.",
       ],
     },
     {
@@ -75,7 +76,7 @@ const pt: PrivacyContent = {
 };
 
 const en: PrivacyContent = {
-  updated: "Last updated: October 7, 2026",
+  updated: "Last updated: October 29, 2026",
   intro: [
     "BitTab is a personalized start page that runs entirely in your browser. We do not create user accounts, do not keep a user database, and do not receive, store or sell your personal data on our servers.",
   ],
@@ -112,6 +113,7 @@ const en: PrivacyContent = {
         "Connection test (speed.cloudflare.com): download, upload and latency are measured directly against Cloudflare servers.",
         "Web search: the text you type is sent to the selected engine (Google, DuckDuckGo, Bing or others), which applies its own privacy policy.",
         "Shortcuts and platforms (LinkHub): clicking a link takes you to the destination site, which has its own privacy policy.",
+        "Malware analysis: BitTab only opens the five external portals in a new tab, without receiving files or producing scan results. You submit any files, URLs or hashes directly on the chosen portal, under that service’s policy; do not submit confidential information.",
       ],
     },
     {
@@ -137,7 +139,7 @@ const en: PrivacyContent = {
 };
 
 const es: PrivacyContent = {
-  updated: "Última actualización: 7 de octubre de 2026",
+  updated: "Última actualización: 29 de octubre de 2026",
   intro: [
     "BitTab es una página de inicio personalizada que funciona íntegramente en tu navegador. No creamos cuentas de usuario, no mantenemos una base de datos de personas usuarias y no recibimos, almacenamos ni vendemos tus datos personales en servidores nuestros.",
   ],
@@ -174,6 +176,7 @@ const es: PrivacyContent = {
         "Prueba de conexión (speed.cloudflare.com): la descarga, la subida y la latencia se miden directamente contra servidores de Cloudflare.",
         "Búsqueda en la web: el texto escrito se envía al motor elegido (Google, DuckDuckGo, Bing u otros), que aplica su propia política de privacidad.",
         "Accesos rápidos y plataformas (LinkHub): al pulsar un enlace, eres dirigido al sitio de destino, que tiene su propia política de privacidad.",
+        "Análisis de malware: BitTab solo abre los cinco portales externos en una nueva pestaña, sin recibir archivos ni producir resultados. Envías archivos, URLs o hashes directamente en el portal elegido, según su política; no envíes información confidencial.",
       ],
     },
     {
