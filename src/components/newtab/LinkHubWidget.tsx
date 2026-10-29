@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { LINK_CATEGORIES } from "@/data/linkHub";
 import { useI18n } from "@/hooks/useSettings";
+import { ReorderableGrid } from "./ReorderableGrid";
 
 const STORAGE_KEY = "bittab:linkhub:collapsed";
 
@@ -34,10 +35,9 @@ export default function LinkHubWidget() {
 
 
   return (
-    <section aria-label={t("links.section")} className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      {LINK_CATEGORIES.map((cat) => {
+    <ReorderableGrid storageKey="bittab:linkhub:order" label={t("links.section")} items={LINK_CATEGORIES.map((cat) => {
         const isClosed = collapsed[cat.id] === true;
-        return (
+        return { id: cat.id, label: t(`cat.${cat.id}`), content: (
           <article key={cat.id} className="glass rise-in rounded-2xl p-4">
             <button
               type="button"
@@ -72,8 +72,7 @@ export default function LinkHubWidget() {
               </ul>
             )}
           </article>
-        );
-      })}
-    </section>
+        ) };
+      })} />
   );
 }
