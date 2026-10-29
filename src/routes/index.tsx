@@ -73,7 +73,7 @@ function NewTab() {
       if (e.ctrlKey || e.metaKey || e.altKey || panelOpen) return;
       const target = e.target as HTMLElement | null;
       const tag = target?.tagName;
-      if (tag === "INPUT" || tag === "TEXTAREA" || target?.isContentEditable) return;
+      if (tag === "INPUT" || tag === "TEXTAREA" || target?.isContentEditable || target?.closest("button, [role='combobox']")) return;
       if (e.key.length === 1) searchRef.current?.focus();
     }
     window.addEventListener("keydown", onKeyDown);
