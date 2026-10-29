@@ -16,6 +16,7 @@ const TasksWidget = lazy(() => import("@/components/newtab/TasksWidget"));
 const PomodoroWidget = lazy(() => import("@/components/newtab/PomodoroWidget"));
 const CurrencyWidget = lazy(() => import("@/components/newtab/CurrencyWidget"));
 const SpeedTestWidget = lazy(() => import("@/components/newtab/SpeedTestWidget"));
+const MalwareWidget = lazy(() => import("@/components/newtab/MalwareWidget"));
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -34,6 +35,7 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:url", content: "https://bittab.lovable.app/" },
       { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "https://bittab.lovable.app/" }],
   }),
@@ -86,7 +88,7 @@ function NewTab() {
 
   const widgets = settings.widgets;
   const anyWidget =
-    widgets.weather || widgets.notes || widgets.tasks || widgets.pomodoro || widgets.currency || widgets.speed;
+    widgets.weather || widgets.notes || widgets.tasks || widgets.pomodoro || widgets.currency || widgets.speed || widgets.malware;
 
 
   return (
@@ -132,6 +134,11 @@ function NewTab() {
             {widgets.speed && (
               <Suspense fallback={<WidgetFallback />}>
                 <SpeedTestWidget />
+              </Suspense>
+            )}
+            {widgets.malware && (
+              <Suspense fallback={<WidgetFallback />}>
+                <MalwareWidget />
               </Suspense>
             )}
           </section>

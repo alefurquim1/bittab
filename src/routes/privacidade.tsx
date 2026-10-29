@@ -21,6 +21,7 @@ export const Route = createFileRoute("/privacidade")({
       },
       { property: "og:url", content: "https://bittab.lovable.app/privacidade" },
       { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "https://bittab.lovable.app/privacidade" }],
   }),

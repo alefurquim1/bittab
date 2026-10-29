@@ -39,6 +39,7 @@ export interface WidgetToggles {
   pomodoro: boolean;
   currency: boolean;
   speed: boolean;
+  malware: boolean;
 }
 
 export interface Settings {
