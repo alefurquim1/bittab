@@ -8,15 +8,9 @@ import { Clock } from "@/components/newtab/Clock";
 import { SearchBar } from "@/components/newtab/SearchBar";
 import { ShortcutGrid } from "@/components/newtab/ShortcutGrid";
 import { SettingsPanel } from "@/components/newtab/SettingsPanel";
+import { WidgetGrid } from "@/components/newtab/WidgetGrid";
 
-const WeatherWidget = lazy(() => import("@/components/newtab/WeatherWidget"));
-const NotesWidget = lazy(() => import("@/components/newtab/NotesWidget"));
 const LinkHubWidget = lazy(() => import("@/components/newtab/LinkHubWidget"));
-const TasksWidget = lazy(() => import("@/components/newtab/TasksWidget"));
-const PomodoroWidget = lazy(() => import("@/components/newtab/PomodoroWidget"));
-const CurrencyWidget = lazy(() => import("@/components/newtab/CurrencyWidget"));
-const SpeedTestWidget = lazy(() => import("@/components/newtab/SpeedTestWidget"));
-const MalwareWidget = lazy(() => import("@/components/newtab/MalwareWidget"));
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -87,8 +81,6 @@ function NewTab() {
   }, [panelOpen]);
 
   const widgets = settings.widgets;
-  const anyWidget =
-    widgets.weather || widgets.notes || widgets.tasks || widgets.pomodoro || widgets.currency || widgets.speed || widgets.malware;
 
 
   return (
@@ -101,48 +93,7 @@ function NewTab() {
         <SearchBar ref={searchRef} />
         {widgets.shortcuts && <ShortcutGrid />}
 
-        {anyWidget && (
-          <section
-            aria-label={t("settings.tab.widgets")}
-            className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {widgets.weather && (
-              <Suspense fallback={<WidgetFallback />}>
-                <WeatherWidget />
-              </Suspense>
-            )}
-            {widgets.notes && (
-              <Suspense fallback={<WidgetFallback />}>
-                <NotesWidget />
-              </Suspense>
-            )}
-            {widgets.tasks && (
-              <Suspense fallback={<WidgetFallback />}>
-                <TasksWidget />
-              </Suspense>
-            )}
-            {widgets.pomodoro && (
-              <Suspense fallback={<WidgetFallback />}>
-                <PomodoroWidget />
-              </Suspense>
-            )}
-            {widgets.currency && (
-              <Suspense fallback={<WidgetFallback />}>
-                <CurrencyWidget />
-              </Suspense>
-            )}
-            {widgets.speed && (
-              <Suspense fallback={<WidgetFallback />}>
-                <SpeedTestWidget />
-              </Suspense>
-            )}
-            {widgets.malware && (
-              <Suspense fallback={<WidgetFallback />}>
-                <MalwareWidget />
-              </Suspense>
-            )}
-          </section>
-        )}
+        <WidgetGrid />
 
         {widgets.links && (
           <Suspense fallback={<WidgetFallback />}>
